@@ -41,7 +41,7 @@ withDefaults(defineProps<Props>(), {
 <style scoped>
 .design-card {
   width: 429px;
-  height: 400px;
+  min-height: 400px;
   display: flex;
   flex-direction: column;
   background: var(--color-white);
@@ -52,6 +52,7 @@ withDefaults(defineProps<Props>(), {
 
 .design-card__media {
   height: 240px;
+  flex-shrink: 0;
   background: var(--color-surface);
   overflow: hidden;
 }

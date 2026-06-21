@@ -1,6 +1,12 @@
 <template>
-  <div>
+  <VueLenis
+    root
+    :options="{
+      lerp: 0.1,
+      smoothWheel: true,
+    }"
+  >
     <NuxtRouteAnnouncer />
     <NuxtPage />
-  </div>
+  </VueLenis>
 </template>

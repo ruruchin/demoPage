@@ -15,7 +15,7 @@ body {
   scrollbar-color: transparent transparent;
   scroll-snap-type: none;
   color: var(--color-text-primary);
-  background: #d8dbe2;
+  background: var(--color-body-bg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -25,24 +25,17 @@ body {
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  overflow: auto;
+  overflow: visible;
   padding: 0;
-  scrollbar-width: none;
-}
-
-.page-viewport::-webkit-scrollbar {
-  display: none;
 }
 
 .page {
   position: relative;
   width: var(--page-width);
-  height: var(--page-height);
   min-width: var(--page-width);
-  min-height: var(--page-height);
+  min-height: 100vh;
   display: flex;
   background: var(--color-page-bg);
-  overflow: hidden;
   padding-top: 8px;
 }
 

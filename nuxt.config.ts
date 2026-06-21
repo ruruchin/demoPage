@@ -2,10 +2,12 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
+  modules: ['lenis/nuxt'],
   css: [
     '~/assets/styles/reset.css',
     '~/assets/styles/tokens.css',
     '~/assets/styles/global.css',
+    'lenis/dist/lenis.css',
   ],
   app: {
     head: {

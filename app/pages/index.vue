@@ -69,6 +69,8 @@ const cards = [
             <GuideBlock />
           </div>
         </section>
+
+        <PageFooter />
       </main>
     </div>
   </div>

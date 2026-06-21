@@ -1,15 +1,19 @@
 <script setup lang="ts">
+import { useRoute } from 'vue-router'
+
 interface NavItem {
   id: string
   label: string
   icon: string
-  active?: boolean
+  to: string
 }
 
+const route = useRoute()
+
 const navItems: NavItem[] = [
-  { id: 'home', label: 'Главная', icon: '/assets/icons/home-new.svg', active: true },
-  { id: 'styles', label: 'Стили', icon: '/assets/icons/styles-new.svg' },
-  { id: 'modules', label: 'Модули', icon: '/assets/icons/modules-new.svg' },
+  { id: 'home', label: 'Главная', icon: '/assets/icons/home-new.svg', to: '/' },
+  { id: 'styles', label: 'Стили', icon: '/assets/icons/styles-new.svg', to: '/styles' },
+  { id: 'modules', label: 'Модули', icon: '/assets/icons/modules-new.svg', to: '/modules' },
 ]
 </script>
 
@@ -22,18 +26,18 @@ const navItems: NavItem[] = [
         </button>
 
         <nav class="sidebar__nav" aria-label="Основная навигация">
-          <button
+          <NuxtLink
             v-for="item in navItems"
             :key="item.id"
+            :to="item.to"
             class="sidebar__nav-item"
-            :class="{ 'sidebar__nav-item--active': item.active }"
-            type="button"
+            :class="{ 'sidebar__nav-item--active': route.path === item.to || (item.to !== '/' && route.path.startsWith(item.to)) }"
           >
             <span class="sidebar__nav-icon">
               <img :src="item.icon" alt="" width="22" height="22">
             </span>
             <span class="sidebar__nav-label">{{ item.label }}</span>
-          </button>
+          </NuxtLink>
         </nav>
       </div>
 
@@ -124,6 +128,7 @@ const navItems: NavItem[] = [
   border-radius: 12px;
   color: var(--color-text-primary);
   transition: background-color 0.2s ease, color 0.2s ease;
+  text-decoration: none;
 }
 
 .sidebar__nav-item:hover {
