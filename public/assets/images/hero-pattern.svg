@@ -1,0 +1,114 @@
+<svg width="897" height="544" viewBox="0 0 897 544" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    @keyframes body-breathe {
+      0%, 100% {
+        transform: translateY(0) scale(1);
+      }
+      50% {
+        transform: translateY(-5px) scale(1.02);
+      }
+    }
+
+    @keyframes eyes-look-blink {
+      0%, 10% {
+        transform: translate(0, 0) scaleY(1);
+      }
+      12% {
+        transform: translate(0, 0) scaleY(0.1);
+      }
+      14% {
+        transform: translate(0, 0) scaleY(1);
+      }
+      30% {
+        transform: translate(0, 0) scaleY(1);
+      }
+      35%, 45% {
+        transform: translate(12px, -8px) scaleY(1);
+      }
+      46% {
+        transform: translate(12px, -8px) scaleY(0.1);
+      }
+      48% {
+        transform: translate(12px, -8px) scaleY(1);
+      }
+      55%, 65% {
+        transform: translate(-12px, 6px) scaleY(1);
+      }
+      66% {
+        transform: translate(-12px, 6px) scaleY(0.1);
+      }
+      68% {
+        transform: translate(-12px, 6px) scaleY(1);
+      }
+      80%, 90% {
+        transform: translate(0, 0) scaleY(1);
+      }
+      92% {
+        transform: translate(0, 0) scaleY(0.1);
+      }
+      94%, 100% {
+        transform: translate(0, 0) scaleY(1);
+      }
+    }
+
+    .body {
+      animation: body-breathe 6s ease-in-out infinite;
+      transform-origin: center;
+      transform-box: fill-box;
+    }
+
+    .eyes {
+      animation: eyes-look-blink 8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      transform-origin: center;
+      transform-box: fill-box;
+    }
+  </style>
+  
+  <g class="body">
+    <rect width="136" height="68" transform="matrix(-1 0 0 1 626 257)" fill="#7DCF82"/>
+    <rect width="136" height="68" transform="matrix(-1 0 0 1 626 280)" fill="#7DCF82"/>
+    <rect width="68" height="68" transform="matrix(1 0 0 -1 490 341)" fill="#7DCF82"/>
+    <rect width="68" height="68" transform="matrix(1 0 0 -1 558 341)" fill="#7DCF82"/>
+    <rect width="68" height="68" transform="matrix(1 0 0 -1 626 274)" fill="#7DCF82"/>
+    <rect width="68" height="68" transform="matrix(1 0 0 -1 694 274)" fill="#7DCF82"/>
+    <rect width="68" height="68" transform="matrix(1 0 0 -1 694 206)" fill="#7DCF82"/>
+    <rect width="68" height="68" transform="matrix(1 0 0 -1 762 206)" fill="#7DCF82"/>
+    <rect width="68" height="68" transform="matrix(1 0 0 -1 626 206)" fill="#7DCF82"/>
+    <rect width="68" height="68" transform="matrix(1 0 0 -1 558 206)" fill="#7DCF82"/>
+    <rect width="68" height="68" transform="matrix(1 0 0 -1 558 138)" fill="#7DCF82"/>
+    <rect width="68" height="68" transform="matrix(1 0 0 -1 490 138)" fill="#7DCF82"/>
+    <rect width="68" height="68" transform="matrix(1 0 0 -1 694 340)" fill="#7DCF82"/>
+    <rect width="68" height="68" transform="matrix(1 0 0 -1 761 138)" fill="#7DCF82"/>
+    <rect width="68" height="68" transform="matrix(1 0 0 -1 761 70)" fill="#7DCF82"/>
+    <rect width="68" height="68" transform="matrix(1 0 0 -1 693 138)" fill="#7DCF82"/>
+    <rect width="68" height="68" transform="matrix(1 0 0 -1 829 70)" fill="#7DCF82"/>
+    <rect width="68" height="68" transform="matrix(1 0 0 -1 829 206)" fill="#7DCF82"/>
+    <rect width="68" height="68" transform="matrix(1 0 0 -1 829 138)" fill="#7DCF82"/>
+    <rect width="136" height="68" transform="matrix(-1 0 0 1 407 280)" fill="#7DCF82"/>
+    <rect width="68" height="68" transform="matrix(-1 0 0 1 407 273)" fill="#7DCF82"/>
+    <rect width="68" height="68" transform="matrix(-1 0 0 1 339 273)" fill="#7DCF82"/>
+    <rect width="136" height="68" transform="matrix(-1 0 0 1 407 257)" fill="#7DCF82"/>
+    <rect width="68" height="68" transform="matrix(-1 0 0 1 271 340)" fill="#7DCF82"/>
+    <rect width="68" height="68" transform="matrix(-1 0 0 1 203 340)" fill="#7DCF82"/>
+    <rect width="68" height="68" transform="matrix(-1 0 0 1 203 408)" fill="#7DCF82"/>
+    <rect width="68" height="68" transform="matrix(-1 0 0 1 135 408)" fill="#7DCF82"/>
+    <rect width="68" height="68" transform="matrix(-1 0 0 1 271 408)" fill="#7DCF82"/>
+    <rect width="68" height="68" transform="matrix(-1 0 0 1 339 408)" fill="#7DCF82"/>
+    <rect width="68" height="68" transform="matrix(-1 0 0 1 339 476)" fill="#7DCF82"/>
+    <rect width="68" height="68" transform="matrix(-1 0 0 1 407 476)" fill="#7DCF82"/>
+    <rect width="68" height="68" transform="matrix(-1 0 0 1 203 274)" fill="#7DCF82"/>
+    <rect width="68" height="68" transform="matrix(-1 0 0 1 136 476)" fill="#7DCF82"/>
+    <rect width="68" height="68" transform="matrix(-1 0 0 1 204 476)" fill="#7DCF82"/>
+    <rect width="68" height="68" transform="matrix(-1 0 0 1 68 408)" fill="#7DCF82"/>
+    <rect width="68" height="68" transform="matrix(-1 0 0 1 68 476)" fill="#7DCF82"/>
+  </g>
+
+  <g class="eyes">
+    <rect width="68" height="33" transform="matrix(-1 0 0 1 558 308)" fill="#1C1B1D"/>
+    <rect width="38" height="35" transform="matrix(-1 0 0 1 577 273)" fill="#1C1B1D"/>
+    <rect width="68" height="33" transform="matrix(-1 0 0 1 626 308)" fill="#1C1B1D"/>
+    <rect width="68" height="33" transform="matrix(-1 0 0 1 339 308)" fill="#1C1B1D"/>
+    <rect width="68" height="33" transform="matrix(-1 0 0 1 407 308)" fill="#1C1B1D"/>
+    <rect width="38" height="35" transform="matrix(-1 0 0 1 358 273)" fill="#1C1B1D"/>
+  </g>
+</svg>

@@ -1,0 +1,36 @@
+:root {
+  --color-page-bg: #ffffff;
+  --color-sidebar-bg: #f3f4f7;
+  --color-surface: #eceef2;
+  --color-surface-muted: #e8ebef;
+  --color-white: #ffffff;
+  --color-border: #e2e5ea;
+  --color-border-light: #e4e7ec;
+  --color-text-primary: #000000;
+  --color-text-secondary: #000000;
+  --color-text-muted: #98a2b3;
+  --color-green-primary: #7fd087;
+  --color-green-light: #a8e0ac;
+  --color-green-soft: #c8eaca;
+  --color-green-pixel: #8fd694;
+  --color-green-pixel-dark: #4a8f52;
+  --color-green-pixel-deep: #2d5c34;
+  --color-nav-active-bg: #d4edda;
+  --color-button-muted-bg: #f2f4f7;
+  --color-button-muted-text: #000000;
+
+  --font-family: 'Inter';
+
+  --font-size-hero-title: 68px;
+  --font-size-hero-subtitle: 20px;
+  --font-size-section-title: 32px;
+  --font-size-card-description: 14px;
+
+  --sidebar-width: 95px;
+  --page-width: 1920px;
+  --page-height: 1080px;
+  --radius-xl: 48px;
+  --radius-lg: 32px;
+  --radius-md: 16px;
+  --radius-sm: 12px;
+}
