@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { getBasicsHomeCards } from '~/data/basicsGuides'
+
 const route = useRoute()
 
 const showOverlay = computed(() => {
@@ -18,26 +20,7 @@ const overlayOpacity = computed(() => {
   return Math.min(1, Math.max(0, value))
 })
 
-const cards = [
-  {
-    title: 'Дизайн мобильных продуктов',
-    description:
-      'Принципы и методы создания удобных мобильных интерфейсов',
-    image: '/assets/images/Дизайн мобильных продуктов.png',
-  },
-  {
-    title: 'Типографика',
-    description:
-      'Правила работы со шрифтами и текстовыми стилями в дизайне',
-    image: '/assets/images/Типографика.png',
-  },
-  {
-    title: 'Продуктовый дизайн',
-    description:
-      'Подходы к проектированию цифровых продуктов и пользовательского опыта',
-    image: '/assets/images/Продуктовый дизайн.png',
-  },
-]
+const cards = getBasicsHomeCards()
 </script>
 
 <template>
@@ -66,6 +49,7 @@ const cards = [
                 :title="card.title"
                 :description="card.description"
                 :image="card.image"
+                :to="card.to"
               />
               <GuideBlock />
             </div>

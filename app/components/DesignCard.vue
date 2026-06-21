@@ -4,10 +4,12 @@ interface Props {
   description: string
   image: string
   imageAlt?: string
+  to?: string
 }
 
 withDefaults(defineProps<Props>(), {
   imageAlt: '',
+  to: '',
 })
 </script>
 
@@ -28,7 +30,15 @@ withDefaults(defineProps<Props>(), {
       <p class="design-card__description">
         {{ description }}
       </p>
+      <NuxtLink
+        v-if="to"
+        :to="to"
+        class="design-card__button"
+      >
+        Открыть
+      </NuxtLink>
       <button
+        v-else
         class="design-card__button"
         type="button"
       >
@@ -106,6 +116,11 @@ withDefaults(defineProps<Props>(), {
   color: var(--color-button-muted-text);
   border: 1px solid var(--color-border-light);
   transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s ease, color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  box-sizing: border-box;
 }
 
 .design-card__button:hover {

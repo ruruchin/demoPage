@@ -13,7 +13,7 @@ const { theme, toggleTheme } = useTheme()
 
 const navItems: NavItem[] = [
   { id: 'home', label: 'Главная', icon: '/assets/icons/home-new.svg', to: '/' },
-  { id: 'styles', label: 'Стили', icon: '/assets/icons/styles-new.svg', to: '/styles' },
+  { id: 'styles', label: 'Стили', icon: '/assets/icons/styles-new.svg', to: '/basics' },
   { id: 'modules', label: 'Модули', icon: '/assets/icons/modules-new.svg', to: '/modules' },
 ]
 </script>
@@ -37,7 +37,7 @@ const navItems: NavItem[] = [
             :key="item.id"
             :to="item.to"
             class="sidebar__nav-item"
-            :class="{ 'sidebar__nav-item--active': route.path === item.to || (item.to !== '/' && route.path.startsWith(item.to)) }"
+            :class="{ 'sidebar__nav-item--active': route.path === item.to || (item.to !== '/' && route.path.startsWith(item.to)) || (item.id === 'styles' && route.path.startsWith('/basics')) }"
           >
             <span class="sidebar__nav-icon">
               <img :src="item.icon" alt="" width="22" height="22">

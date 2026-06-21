@@ -64,6 +64,8 @@
   --page-inset-bottom: 8px;
 
   --content-offset-left: 111px;
+  --guide-sidebar-width: 260px;
+  --guide-sidebar-offset: 103px;
   --modules-sidebar-width: 280px;
   --modules-sidebar-offset: 103px;
   --modules-right-width: 320px;
@@ -128,6 +130,8 @@
     --font-size-card-description: 16px;
     --sidebar-width: 112px;
     --content-offset-left: 128px;
+    --guide-sidebar-width: 300px;
+    --guide-sidebar-offset: 120px;
     --modules-sidebar-width: 340px;
     --modules-sidebar-offset: 120px;
     --modules-right-width: 380px;
