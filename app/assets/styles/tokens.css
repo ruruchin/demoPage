@@ -44,6 +44,8 @@
   --color-icon-stroke: #000000;
   --color-icon-muted: #98a2b3;
   --color-overlay-hover: rgba(255, 255, 255, 0.65);
+  --color-brand-claude: #d97757;
+  --color-brand-openapi: #6ba539;
 
   --font-family: 'Inter';
 
@@ -118,6 +120,8 @@
   --color-icon-stroke: #f3f4f6;
   --color-icon-muted: #9aa3b2;
   --color-overlay-hover: rgba(255, 255, 255, 0.08);
+  --color-brand-claude: #e8957a;
+  --color-brand-openapi: #8fd06a;
 
   color-scheme: dark;
 }

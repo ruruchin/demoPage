@@ -38,6 +38,7 @@ const searchItems: SearchItem[] = [
   { id: 'page-home', title: 'Главная', description: 'Обзор дизайн-системы и раздел «Основы дизайна»', href: '/', category: 'pages', keywords: ['главная', 'home', 'обзор'] },
   { id: 'page-styles', title: 'Стили', description: 'Основы дизайна: мобильные продукты, типографика, продуктовый дизайн', href: '/basics', category: 'pages', keywords: ['стили', 'styles', 'токены', 'основы'] },
   { id: 'page-modules', title: 'Модули', description: 'Документация UI-компонентов и их свойства', href: '/modules', category: 'pages', keywords: ['модули', 'components', 'компоненты'] },
+  { id: 'page-api', title: 'API', description: 'Интеграции с Cursor, Claude, MCP и REST для AI-агентов', href: '/api', category: 'pages', keywords: ['api', 'cursor', 'claude', 'mcp', 'интеграции', 'агенты'] },
   { id: 'basics-mobile', title: 'Дизайн мобильных продуктов', description: 'Принципы и методы создания удобных мобильных интерфейсов', href: '/basics/mobile-design', category: 'basics', keywords: ['мобильный', 'mobile', 'продукт'] },
   { id: 'basics-typography', title: 'Типографика', description: 'Правила работы со шрифтами и текстовыми стилями в дизайне', href: '/basics/typography', category: 'basics', keywords: ['типографика', 'шрифт', 'текст'] },
   { id: 'basics-product', title: 'Продуктовый дизайн', description: 'Подходы к проектированию цифровых продуктов и пользовательского опыта', href: '/basics/product-design', category: 'basics', keywords: ['продукт', 'ux', 'дизайн'] },
