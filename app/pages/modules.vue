@@ -9,6 +9,8 @@ const showOverlay = computed(() => {
 
 const showCode = ref(false)
 const showMobileComponents = ref(false)
+type ComponentView = 'docs' | 'default'
+const activeView = ref<ComponentView>('docs')
 
 const overlayOpacity = computed(() => {
   const value = Number(route.query.overlayOpacity ?? 0.5)
@@ -103,8 +105,13 @@ async function copyComponentLink() {
 
 function selectComponent(componentId: string) {
   activeComponentId.value = componentId
+  activeView.value = 'docs'
   showMobileComponents.value = false
   router.replace({ query: { ...route.query, component: componentId } })
+}
+
+function selectView(view: ComponentView) {
+  activeView.value = view
 }
 
 function closeMobileComponents() {
@@ -192,41 +199,64 @@ const propsList = [
                 </span>
                 <span class="modules-sidebar__item-text">{{ comp.name }}</span>
                 <span class="modules-sidebar__item-chevron">
-                  <svg v-if="comp.id === activeComponentId" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 10L8 6L4 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                  <svg v-else width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <svg
+                    class="modules-sidebar__item-chevron-icon"
+                    :class="{ 'modules-sidebar__item-chevron-icon--expanded': comp.id === activeComponentId }"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
                     <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
                 </span>
               </button>
 
-              <ul v-if="comp.id === activeComponentId" class="modules-sidebar__sublist">
-                <li>
-                  <button class="modules-sidebar__subitem modules-sidebar__subitem--active">
-                    <span class="modules-sidebar__subitem-icon">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2Z" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M14 2V8H20" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M16 13H8" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M16 17H8" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M10 9H8" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                      </svg>
-                    </span>
-                    Docs
-                  </button>
-                </li>
-                <li>
-                  <button class="modules-sidebar__subitem">
-                    <span class="modules-sidebar__subitem-icon">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M5 5C5 3.89543 5.89543 3 7 3H17C18.1046 3 19 3.89543 19 5V21L12 17.5L5 21V5Z" stroke="#98a2b3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                      </svg>
-                    </span>
-                    Default
-                  </button>
-                </li>
-              </ul>
+              <div
+                class="modules-sidebar__sublist-collapse"
+                :class="{ 'modules-sidebar__sublist-collapse--open': comp.id === activeComponentId }"
+              >
+                <div class="modules-sidebar__sublist-collapse__inner">
+                  <div class="modules-sidebar__sublist">
+                    <span
+                      class="modules-sidebar__sublist-indicator"
+                      :class="{ 'modules-sidebar__sublist-indicator--default': activeView === 'default' }"
+                      aria-hidden="true"
+                    />
+                    <button
+                      type="button"
+                      class="modules-sidebar__subitem"
+                      :class="{ 'modules-sidebar__subitem--active': activeView === 'docs' }"
+                      @click="selectView('docs')"
+                    >
+                      <span class="modules-sidebar__subitem-icon modules-sidebar__subitem-icon--docs">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M14 2V8H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M16 13H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M16 17H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M10 9H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </span>
+                      Docs
+                    </button>
+                    <button
+                      type="button"
+                      class="modules-sidebar__subitem"
+                      :class="{ 'modules-sidebar__subitem--active': activeView === 'default' }"
+                      @click="selectView('default')"
+                    >
+                      <span class="modules-sidebar__subitem-icon modules-sidebar__subitem-icon--muted">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M5 5C5 3.89543 5.89543 3 7 3H17C18.1046 3 19 3.89543 19 5V21L12 17.5L5 21V5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </span>
+                      Default
+                    </button>
+                  </div>
+                </div>
+              </div>
             </li>
           </ul>
         </aside>
@@ -234,7 +264,8 @@ const propsList = [
         <div class="modules-content-area">
           <div class="modules-top">
             <main class="modules-main">
-              <div class="modules-content">
+              <Transition name="modules-switch" mode="out-in">
+                <div :key="activeComponentId" class="modules-content">
           <div class="modules-header">
             <h1 class="modules-title">
               {{ activeComponent.name }}
@@ -308,6 +339,7 @@ const propsList = [
             </table>
           </div>
         </div>
+              </Transition>
 
               <div class="modules-bottom-nav">
                 <button
@@ -332,10 +364,31 @@ const propsList = [
             <aside class="modules-right">
               <div class="right-panel">
                 <h3 class="right-panel__label">Компонент</h3>
-                <h2 class="right-panel__title">{{ activeComponent.name }}</h2>
+                <Transition name="modules-title-switch" mode="out-in">
+                  <h2 :key="activeComponentId" class="right-panel__title">{{ activeComponent.name }}</h2>
+                </Transition>
                 <div class="right-panel__tabs">
-                  <button class="tab active">Docs</button>
-                  <button class="tab">Default</button>
+                  <span
+                    class="right-panel__tabs-indicator"
+                    :class="{ 'right-panel__tabs-indicator--default': activeView === 'default' }"
+                    aria-hidden="true"
+                  />
+                  <button
+                    type="button"
+                    class="tab"
+                    :class="{ active: activeView === 'docs' }"
+                    @click="selectView('docs')"
+                  >
+                    Docs
+                  </button>
+                  <button
+                    type="button"
+                    class="tab"
+                    :class="{ active: activeView === 'default' }"
+                    @click="selectView('default')"
+                  >
+                    Default
+                  </button>
                 </div>
               </div>
             </aside>
@@ -393,7 +446,7 @@ const propsList = [
   top: 8px;
   height: calc(100vh - 16px);
   max-height: calc(100vh - 16px);
-  background: #f1f3f8;
+  background: var(--color-panel-bg);
   border-radius: 28px;
   margin: 0 16px 8px var(--modules-sidebar-offset);
   padding: 32px 16px;
@@ -448,7 +501,7 @@ const propsList = [
   font-size: 15px;
   color: var(--color-text-primary);
   background: transparent;
-  transition: background 0.2s;
+  transition: background 0.25s ease, font-weight 0.2s ease;
   border: none;
   cursor: pointer;
   display: flex;
@@ -457,7 +510,7 @@ const propsList = [
 }
 
 .modules-sidebar__item:hover {
-  background: rgba(255, 255, 255, 0.5);
+  background: var(--color-panel-hover);
 }
 
 .modules-sidebar__item--expanded {
@@ -484,16 +537,63 @@ const propsList = [
   color: var(--color-text-muted);
 }
 
+.modules-sidebar__item-chevron-icon {
+  transition: transform 0.28s ease;
+}
+
+.modules-sidebar__item-chevron-icon--expanded {
+  transform: rotate(180deg);
+}
+
+.modules-sidebar__sublist-collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 0.32s ease,
+    opacity 0.28s ease;
+}
+
+.modules-sidebar__sublist-collapse--open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.modules-sidebar__sublist-collapse__inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
 .modules-sidebar__sublist {
+  position: relative;
   list-style: none;
-  padding: 0 0 0 32px;
-  margin: 4px 0 0 0;
+  padding: 4px 0 0 32px;
+  margin: 0;
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
+.modules-sidebar__sublist-indicator {
+  position: absolute;
+  left: 32px;
+  right: 0;
+  top: 4px;
+  height: calc((100% - 4px - 4px) / 2);
+  background: var(--color-accent-active);
+  border-radius: 12px;
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.modules-sidebar__sublist-indicator--default {
+  transform: translateY(calc(100% + 4px));
+}
+
 .modules-sidebar__subitem {
+  position: relative;
+  z-index: 1;
   width: 100%;
   text-align: left;
   padding: 10px 12px;
@@ -501,7 +601,7 @@ const propsList = [
   font-size: 14px;
   color: var(--color-text-primary);
   background: transparent;
-  transition: background 0.2s;
+  transition: color 0.2s ease;
   border: none;
   cursor: pointer;
   display: flex;
@@ -510,22 +610,22 @@ const propsList = [
 }
 
 .modules-sidebar__subitem:hover {
-  background: rgba(255, 255, 255, 0.5);
+  color: var(--color-text-primary);
 }
 
 .modules-sidebar__subitem--active {
-  background: #bfe9bf;
   font-weight: 500;
-}
-
-.modules-sidebar__subitem--active:hover {
-  background: #aae0aa;
 }
 
 .modules-sidebar__subitem-icon {
   display: flex;
   align-items: center;
   justify-content: center;
+  color: var(--color-icon-stroke);
+}
+
+.modules-sidebar__subitem-icon--muted {
+  color: var(--color-icon-muted);
 }
 
 .modules-main {
@@ -538,13 +638,14 @@ const propsList = [
 
 .modules-content {
   flex: 1;
-  background: var(--color-white);
+  background: var(--color-card-bg);
   border-radius: 28px;
   padding: 48px;
   display: flex;
   flex-direction: column;
   gap: 32px;
   overflow-y: auto;
+  transition: background-color 0.3s ease;
 }
 
 .modules-header {
@@ -569,7 +670,7 @@ const propsList = [
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f1f3f8;
+  background: var(--color-panel-bg);
   border-radius: 12px;
   border: none;
   cursor: pointer;
@@ -578,18 +679,18 @@ const propsList = [
 }
 
 .share-btn:hover {
-  background: #e4e7ec;
+  background: var(--color-share-hover);
 }
 
 .share-btn--copied {
-  background: #cfeecf;
+  background: var(--color-share-copied);
 }
 
 .modules-actions-wrapper {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #f1f3f8;
+  background: var(--color-panel-bg);
   padding: 8px 16px;
   border-radius: 16px;
   width: 100%;
@@ -610,7 +711,7 @@ const propsList = [
 }
 
 .btn--primary {
-  background: #50B848;
+  background: var(--color-primary-btn);
   color: var(--color-white);
 }
 
@@ -649,8 +750,8 @@ const propsList = [
 }
 
 .code-block {
-  background: #2d2d2d;
-  color: #a8e0ac;
+  background: var(--color-code-bg);
+  color: var(--color-code-text);
   padding: 24px;
   border-radius: 16px;
   font-family: monospace;
@@ -672,7 +773,7 @@ const propsList = [
 }
 
 .props-header-pill {
-  background: #f1f3f8;
+  background: var(--color-panel-bg);
   display: inline-block;
   padding: 6px 12px;
   border-radius: 8px;
@@ -704,12 +805,12 @@ const propsList = [
 }
 
 .prop-code {
-  background: #f1f3f8;
+  background: var(--color-prop-code-bg);
   padding: 6px 12px;
   border-radius: 8px;
   font-family: monospace;
   font-size: 13px;
-  color: #d63384;
+  color: var(--color-prop-code);
 }
 
 .prop-desc {
@@ -717,7 +818,7 @@ const propsList = [
 }
 
 .control-btn {
-  background: #f1f3f8;
+  background: var(--color-control-bg);
   color: var(--color-text-muted);
   border: none;
   padding: 8px 16px;
@@ -731,7 +832,7 @@ const propsList = [
 }
 
 .control-btn--dropdown {
-  background: var(--color-white);
+  background: var(--color-card-bg);
   border: 1px solid var(--color-border);
   color: var(--color-text-primary);
 }
@@ -756,7 +857,7 @@ const propsList = [
   left: 0;
   right: 0;
   bottom: 0;
-  background: #e4e7ec;
+  background: var(--color-toggle-bg);
   border-radius: 24px;
   cursor: pointer;
   transition: .3s;
@@ -775,7 +876,7 @@ const propsList = [
 }
 
 .toggle-checkbox:checked + .toggle-label {
-  background: #7fd087;
+  background: var(--color-green-primary);
 }
 
 .toggle-checkbox:checked + .toggle-label:before {
@@ -807,11 +908,11 @@ const propsList = [
 }
 
 .bottom-nav-btn.prev {
-  background: #f1f3f8;
+  background: var(--color-panel-bg);
 }
 
 .bottom-nav-btn.next {
-  background: #50B848;
+  background: var(--color-primary-btn);
   text-align: left;
   align-items: flex-start;
 }
@@ -833,7 +934,7 @@ const propsList = [
 }
 
 .bottom-nav-btn.next .nav-title {
-  color: #ffffff;
+  color: var(--color-white);
 }
 
 .modules-right {
@@ -867,12 +968,33 @@ const propsList = [
 }
 
 .right-panel__tabs {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
+.right-panel__tabs-indicator {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 165px;
+  height: 48px;
+  background: var(--color-tab-active-bg);
+  border: 1px solid var(--color-tab-active-border);
+  border-radius: 35px;
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.right-panel__tabs-indicator--default {
+  transform: translateY(calc(100% + 4px));
+}
+
 .tab {
+  position: relative;
+  z-index: 1;
   width: 165px;
   height: 48px;
   padding: 0 20px;
@@ -883,16 +1005,57 @@ const propsList = [
   cursor: pointer;
   border: 1px solid transparent;
   color: var(--color-text-muted);
-  transition: all 0.2s;
+  transition: color 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: flex-start;
 }
 
 .tab.active {
-  background: #F1F3F9;
-  border: 1px solid #DEDEDE;
   color: var(--color-text-primary);
+}
+
+.modules-switch-enter-active,
+.modules-switch-leave-active {
+  transition: opacity 0.28s ease, transform 0.28s ease;
+}
+
+.modules-switch-enter-from {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+.modules-switch-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+.modules-title-switch-enter-active,
+.modules-title-switch-leave-active {
+  transition: opacity 0.22s ease, transform 0.22s ease;
+}
+
+.modules-title-switch-enter-from {
+  opacity: 0;
+  transform: translateX(8px);
+}
+
+.modules-title-switch-leave-to {
+  opacity: 0;
+  transform: translateX(-8px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modules-sidebar__sublist-collapse,
+  .modules-sidebar__item-chevron-icon,
+  .modules-sidebar__sublist-indicator,
+  .right-panel__tabs-indicator,
+  .modules-switch-enter-active,
+  .modules-switch-leave-active,
+  .modules-title-switch-enter-active,
+  .modules-title-switch-leave-active {
+    transition: none;
+  }
 }
 
 @media (max-width: 1439px) {
@@ -937,7 +1100,7 @@ const propsList = [
     align-items: center;
     gap: 12px 20px;
     padding: 20px 24px;
-    background: #f1f3f8;
+    background: var(--color-panel-bg);
     border-radius: 20px;
   }
 
@@ -958,10 +1121,19 @@ const propsList = [
     flex-wrap: wrap;
   }
 
+  .right-panel__tabs-indicator {
+    display: none;
+  }
+
   .tab {
     width: auto;
     min-width: 112px;
     height: 44px;
+  }
+
+  .tab.active {
+    background: var(--color-tab-active-bg);
+    border: 1px solid var(--color-tab-active-border);
   }
 
   .modules-content-area {
@@ -994,7 +1166,7 @@ const propsList = [
     padding: 14px 16px;
     border: none;
     border-radius: 16px;
-    background: #f1f3f8;
+    background: var(--color-panel-bg);
     cursor: pointer;
     text-align: left;
   }
@@ -1131,6 +1303,11 @@ const propsList = [
     min-width: 0;
     flex: 1;
     justify-content: center;
+  }
+
+  .tab.active {
+    background: var(--color-tab-active-bg);
+    border: 1px solid var(--color-tab-active-border);
   }
 }
 

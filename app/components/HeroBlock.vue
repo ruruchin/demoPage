@@ -63,9 +63,10 @@
 }
 
 .hero__card {
-  background: #F1F3F9;
-  background-color: #F1F3F9;
+  background: var(--color-hero-bg);
+  background-color: var(--color-hero-bg);
   overflow: hidden;
+  transition: background-color 0.3s ease;
 }
 
 .hero__card--text {

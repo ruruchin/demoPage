@@ -62,6 +62,7 @@ withDefaults(defineProps<{
   width: 100%;
   height: 454px;
   box-sizing: border-box;
+  transition: background-color 0.3s ease;
 }
 
 .footer__content {
@@ -84,9 +85,10 @@ withDefaults(defineProps<{
   font-size: 18px;
   font-weight: 400;
   line-height: normal;
-  color: #1E1E1F;
+  color: var(--color-footer-text);
   margin: 0 0 48px 0;
   max-width: 481px;
+  transition: color 0.3s ease;
 }
 
 .footer__legal {

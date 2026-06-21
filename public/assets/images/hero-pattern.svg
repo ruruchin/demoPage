@@ -10,43 +10,28 @@
     }
 
     @keyframes eyes-look-blink {
-      0%, 10% {
+      0%, 12% {
         transform: translate(0, 0) scaleY(1);
-      }
-      12% {
-        transform: translate(0, 0) scaleY(0.1);
       }
       14% {
-        transform: translate(0, 0) scaleY(1);
-      }
-      30% {
-        transform: translate(0, 0) scaleY(1);
-      }
-      35%, 45% {
-        transform: translate(12px, -8px) scaleY(1);
-      }
-      46% {
-        transform: translate(12px, -8px) scaleY(0.1);
-      }
-      48% {
-        transform: translate(12px, -8px) scaleY(1);
-      }
-      55%, 65% {
-        transform: translate(-12px, 6px) scaleY(1);
-      }
-      66% {
-        transform: translate(-12px, 6px) scaleY(0.1);
-      }
-      68% {
-        transform: translate(-12px, 6px) scaleY(1);
-      }
-      80%, 90% {
-        transform: translate(0, 0) scaleY(1);
-      }
-      92% {
         transform: translate(0, 0) scaleY(0.1);
       }
-      94%, 100% {
+      16%, 38% {
+        transform: translate(0, 0) scaleY(1);
+      }
+      48%, 58% {
+        transform: translate(8px, -4px) scaleY(1);
+      }
+      68%, 78% {
+        transform: translate(-8px, 4px) scaleY(1);
+      }
+      88%, 96% {
+        transform: translate(0, 0) scaleY(1);
+      }
+      98% {
+        transform: translate(0, 0) scaleY(0.1);
+      }
+      100% {
         transform: translate(0, 0) scaleY(1);
       }
     }
@@ -58,12 +43,19 @@
     }
 
     .eyes {
-      animation: eyes-look-blink 8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      animation: eyes-look-blink 10s ease-in-out infinite;
       transform-origin: center;
       transform-box: fill-box;
     }
+
+    @media (prefers-reduced-motion: reduce) {
+      .body,
+      .eyes {
+        animation: none;
+      }
+    }
   </style>
-  
+
   <g class="body">
     <rect width="136" height="68" transform="matrix(-1 0 0 1 626 257)" fill="#7DCF82"/>
     <rect width="136" height="68" transform="matrix(-1 0 0 1 626 280)" fill="#7DCF82"/>

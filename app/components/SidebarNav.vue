@@ -9,6 +9,7 @@ interface NavItem {
 }
 
 const route = useRoute()
+const { theme, toggleTheme } = useTheme()
 
 const navItems: NavItem[] = [
   { id: 'home', label: 'Главная', icon: '/assets/icons/home-new.svg', to: '/' },
@@ -42,7 +43,14 @@ const navItems: NavItem[] = [
       </div>
 
       <div class="sidebar__bottom">
-        <button class="sidebar__settings" type="button" aria-label="Настройки">
+        <button
+          type="button"
+          class="sidebar__settings"
+          :class="{ 'sidebar__settings--active': theme === 'dark' }"
+          :aria-label="theme === 'dark' ? 'Включить светлую тему' : 'Включить тёмную тему'"
+          :aria-pressed="theme === 'dark'"
+          @click="toggleTheme"
+        >
           <img src="/assets/icons/settings.svg" alt="" width="24" height="24">
         </button>
 
@@ -76,9 +84,10 @@ const navItems: NavItem[] = [
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: #f1f3f8;
+  background: var(--color-panel-bg);
   border-radius: 28px;
   padding: 32px 0 18px;
+  transition: background-color 0.3s ease;
 }
 
 .sidebar__top {
@@ -95,18 +104,22 @@ const navItems: NavItem[] = [
   align-items: center;
   justify-content: center;
   border-radius: 14px;
-  background: #cfeecf;
+  background: var(--color-accent-soft);
   transition: background-color 0.2s ease;
 }
 
 .sidebar__search:hover {
-  background: #c5e8c6;
+  background: var(--color-accent-soft-hover);
 }
 
 .sidebar__search img,
-.sidebar__nav-icon img,
-.sidebar__settings img {
+.sidebar__nav-icon img {
   filter: brightness(0) saturate(100%);
+}
+
+[data-theme='dark'] .sidebar__search img,
+[data-theme='dark'] .sidebar__nav-icon img {
+  filter: brightness(0) saturate(100%) invert(1);
 }
 
 .sidebar__nav {
@@ -132,11 +145,11 @@ const navItems: NavItem[] = [
 }
 
 .sidebar__nav-item:hover {
-  background: rgba(255, 255, 255, 0.55);
+  background: var(--color-panel-hover);
 }
 
 .sidebar__nav-item--active {
-  background: #bfe9bf;
+  background: var(--color-accent-active);
   color: var(--color-text-primary);
 }
 
@@ -170,11 +183,27 @@ const navItems: NavItem[] = [
   align-items: center;
   justify-content: center;
   border-radius: 14px;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease, transform 0.25s ease;
+}
+
+.sidebar__settings img {
+  transition: transform 0.35s ease, filter 0.3s ease;
+}
+
+[data-theme='dark'] .sidebar__settings img {
+  filter: brightness(0) saturate(100%) invert(1);
 }
 
 .sidebar__settings:hover {
-  background: rgba(255, 255, 255, 0.65);
+  background: var(--color-overlay-hover);
+}
+
+.sidebar__settings--active {
+  background: var(--color-accent-active);
+}
+
+.sidebar__settings--active img {
+  transform: rotate(180deg);
 }
 
 .sidebar__logo {
@@ -184,7 +213,8 @@ const navItems: NavItem[] = [
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: var(--color-white);
+  background: var(--color-card-bg);
+  transition: background-color 0.3s ease;
 }
 
 @media (max-width: 767px) {

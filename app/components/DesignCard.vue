@@ -45,10 +45,11 @@ withDefaults(defineProps<Props>(), {
   min-height: 400px;
   display: flex;
   flex-direction: column;
-  background: var(--color-white);
+  background: var(--color-card-bg);
   border: 1px solid var(--color-border-light);
   border-radius: var(--radius-lg);
   overflow: hidden;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 @media (max-width: 1279px) {

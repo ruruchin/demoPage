@@ -28,6 +28,12 @@ export default defineNuxtConfig({
   app: {
     head: {
       title: 'Дизайн-система «Центр-инвест»',
+      script: [
+        {
+          innerHTML: `(function(){try{var t=localStorage.getItem('ci-ds-theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.dataset.theme='dark'}}catch(e){}})();`,
+          tagPosition: 'head',
+        },
+      ],
       link: [
         {
           rel: 'preconnect',

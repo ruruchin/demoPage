@@ -5,6 +5,7 @@
   --color-surface: #eceef2;
   --color-surface-muted: #e8ebef;
   --color-white: #ffffff;
+  --color-card-bg: #ffffff;
   --color-border: #e2e5ea;
   --color-border-light: #e4e7ec;
   --color-text-primary: #000000;
@@ -19,6 +20,30 @@
   --color-nav-active-bg: #d4edda;
   --color-button-muted-bg: #f2f4f7;
   --color-button-muted-text: #000000;
+
+  --color-panel-bg: #f1f3f8;
+  --color-panel-hover: rgba(255, 255, 255, 0.55);
+  --color-accent-soft: #cfeecf;
+  --color-accent-soft-hover: #c5e8c6;
+  --color-accent-active: #bfe9bf;
+  --color-accent-active-hover: #aae0aa;
+  --color-hero-bg: #f1f3f9;
+  --color-share-bg: #f1f3f8;
+  --color-share-hover: #e4e7ec;
+  --color-share-copied: #cfeecf;
+  --color-primary-btn: #50b848;
+  --color-code-bg: #2d2d2d;
+  --color-code-text: #a8e0ac;
+  --color-prop-code: #50b848;
+  --color-prop-code-bg: #f1f3f8;
+  --color-control-bg: #f1f3f8;
+  --color-toggle-bg: #e4e7ec;
+  --color-tab-active-bg: #f1f3f9;
+  --color-tab-active-border: #dedede;
+  --color-footer-text: #1e1e1f;
+  --color-icon-stroke: #000000;
+  --color-icon-muted: #98a2b3;
+  --color-overlay-hover: rgba(255, 255, 255, 0.65);
 
   --font-family: 'Inter';
 
@@ -41,6 +66,55 @@
   --modules-right-width: 320px;
   --space-page-x: 0;
   --space-section: 48px;
+
+  color-scheme: light;
+}
+
+[data-theme='dark'] {
+  --color-page-bg: #12141a;
+  --color-body-bg: #0e1015;
+  --color-sidebar-bg: #1a1d26;
+  --color-surface: #22262f;
+  --color-surface-muted: #252932;
+  --color-white: #ffffff;
+  --color-card-bg: #1e2129;
+  --color-border: #343a46;
+  --color-border-light: #2e3340;
+  --color-text-primary: #f3f4f6;
+  --color-text-secondary: #e5e7eb;
+  --color-text-muted: #9aa3b2;
+  --color-green-primary: #7fd087;
+  --color-green-light: #6bc474;
+  --color-green-soft: #3d5c42;
+  --color-nav-active-bg: #2a4a30;
+  --color-button-muted-bg: #2a2e38;
+  --color-button-muted-text: #f3f4f6;
+
+  --color-panel-bg: #1a1d26;
+  --color-panel-hover: rgba(255, 255, 255, 0.06);
+  --color-accent-soft: #2a4a30;
+  --color-accent-soft-hover: #325a38;
+  --color-accent-active: #2f5235;
+  --color-accent-active-hover: #386640;
+  --color-hero-bg: #1a1d26;
+  --color-share-bg: #252932;
+  --color-share-hover: #2e3340;
+  --color-share-copied: #2a4a30;
+  --color-primary-btn: #50b848;
+  --color-code-bg: #0f1117;
+  --color-code-text: #8fd694;
+  --color-prop-code: #7fd087;
+  --color-prop-code-bg: #252932;
+  --color-control-bg: #252932;
+  --color-toggle-bg: #343a46;
+  --color-tab-active-bg: #252932;
+  --color-tab-active-border: #3d4452;
+  --color-footer-text: #e5e7eb;
+  --color-icon-stroke: #f3f4f6;
+  --color-icon-muted: #9aa3b2;
+  --color-overlay-hover: rgba(255, 255, 255, 0.08);
+
+  color-scheme: dark;
 }
 
 @media (min-width: 2560px) {
