@@ -15,28 +15,37 @@ body {
   scrollbar-color: transparent transparent;
   scroll-snap-type: none;
   color: var(--color-text-primary);
-  background: var(--color-body-bg);
+  background: var(--color-page-bg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+html,
+body,
+#__nuxt {
+  background: var(--color-page-bg);
+}
+
 .page-viewport {
+  width: 100%;
   min-height: 100vh;
   display: flex;
   align-items: flex-start;
-  justify-content: center;
-  overflow: visible;
+  justify-content: flex-start;
+  overflow-x: clip;
   padding: 0;
+  box-sizing: border-box;
 }
 
 .page {
   position: relative;
-  width: var(--page-width);
-  min-width: var(--page-width);
+  width: 100%;
+  min-width: 0;
   min-height: 100vh;
   display: flex;
   background: var(--color-page-bg);
   padding-top: 8px;
+  box-sizing: border-box;
 }
 
 .page__main {
@@ -45,7 +54,7 @@ body {
   display: flex;
   flex-direction: column;
   padding: 0 8px 16px 0;
-  margin-left: 111px;
+  margin-left: var(--content-offset-left);
 }
 
 .basics {
@@ -121,4 +130,171 @@ body {
 .guide {
   animation: fadeInUp 0.6s ease-out both;
   animation-delay: 0.7s;
+}
+
+/* Modules page entrance */
+.modules-sidebar {
+  animation: slideInLeft 0.6s ease-out both;
+  animation-delay: 0.12s;
+}
+
+.modules-sidebar__title {
+  animation: fadeInUp 0.5s ease-out both;
+  animation-delay: 0.22s;
+}
+
+.modules-sidebar__list-item {
+  animation: fadeInUp 0.45s ease-out both;
+}
+
+.modules-sidebar__list-item:nth-child(1) { animation-delay: 0.28s; }
+.modules-sidebar__list-item:nth-child(2) { animation-delay: 0.31s; }
+.modules-sidebar__list-item:nth-child(3) { animation-delay: 0.34s; }
+.modules-sidebar__list-item:nth-child(4) { animation-delay: 0.37s; }
+.modules-sidebar__list-item:nth-child(5) { animation-delay: 0.4s; }
+.modules-sidebar__list-item:nth-child(n + 6) { animation-delay: 0.43s; }
+
+.modules-header {
+  animation: fadeInUp 0.6s ease-out both;
+  animation-delay: 0.2s;
+}
+
+.modules-actions-wrapper {
+  animation: fadeInUp 0.6s ease-out both;
+  animation-delay: 0.28s;
+}
+
+.props-table-container {
+  animation: fadeInUp 0.6s ease-out both;
+  animation-delay: 0.36s;
+}
+
+.right-panel__label {
+  animation: fadeInUp 0.5s ease-out both;
+  animation-delay: 0.24s;
+}
+
+.right-panel__title {
+  animation: fadeInUp 0.5s ease-out both;
+  animation-delay: 0.32s;
+}
+
+.right-panel__tabs .tab {
+  animation: fadeInUp 0.5s ease-out both;
+}
+
+.right-panel__tabs .tab:nth-child(1) {
+  animation-delay: 0.4s;
+}
+
+.right-panel__tabs .tab:nth-child(2) {
+  animation-delay: 0.48s;
+}
+
+.modules-bottom-nav {
+  animation: fadeInUp 0.6s ease-out both;
+  animation-delay: 0.44s;
+}
+
+.modules-page-footer {
+  animation: fadeInUp 0.6s ease-out both;
+  animation-delay: 0.52s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar,
+  .hero__card,
+  .basics__title,
+  .design-card,
+  .guide,
+  .modules-sidebar,
+  .modules-sidebar__title,
+  .modules-sidebar__list-item,
+  .modules-header,
+  .modules-actions-wrapper,
+  .props-table-container,
+  .right-panel__label,
+  .right-panel__title,
+  .right-panel__tabs .tab,
+  .modules-bottom-nav,
+  .modules-page-footer {
+    animation: none;
+  }
+}
+
+/* Tablet */
+@media (max-width: 1279px) {
+  .page__main {
+    margin-left: calc(var(--sidebar-width) + 20px);
+    padding-right: 0;
+  }
+
+  .basics__title {
+    margin-left: 24px;
+    margin-bottom: 24px;
+  }
+
+  .basics__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-left: 24px;
+    margin-right: 8px;
+    gap: 20px;
+  }
+
+  .guide {
+    grid-column: 1 / -1;
+    max-width: none;
+    margin-left: 0;
+    padding-top: 0;
+  }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  .page-viewport {
+    padding: 0;
+  }
+
+  .page {
+    padding-top: 0;
+  }
+
+  .page__main {
+    margin-left: 0;
+    padding: 0 16px 96px;
+  }
+
+  .basics {
+    margin-top: 32px;
+  }
+
+  .basics__title {
+    margin: 0 0 20px;
+    font-size: clamp(24px, 6vw, 32px);
+    letter-spacing: -0.4px;
+  }
+
+  .basics__grid {
+    grid-template-columns: 1fr;
+    margin: 0;
+    gap: 16px;
+  }
+}
+
+/* 2K enhancements */
+@media (min-width: 2560px) {
+  .basics__title {
+    margin-left: var(--space-section);
+    margin-bottom: 40px;
+  }
+
+  .basics__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin-left: var(--space-section);
+    gap: 32px;
+  }
+
+  .guide {
+    margin-left: 0;
+  }
 }

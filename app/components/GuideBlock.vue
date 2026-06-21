@@ -22,6 +22,25 @@
   margin-left: 44px;
 }
 
+@media (max-width: 1279px) {
+  .guide {
+    max-width: none;
+    margin-left: 0;
+  }
+}
+
+@media (min-width: 2560px) {
+  .guide {
+    max-width: 360px;
+    margin-left: 0;
+    padding-top: 16px;
+  }
+
+  .guide__title {
+    font-size: 24px;
+  }
+}
+
 .guide__label {
   font-family: var(--font-family);
   font-size: 12px;

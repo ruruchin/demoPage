@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const route = useRoute()
+const router = useRouter()
 
 const showOverlay = computed(() => {
   if (!import.meta.dev) return false
@@ -7,6 +8,7 @@ const showOverlay = computed(() => {
 })
 
 const showCode = ref(false)
+const showMobileComponents = ref(false)
 
 const overlayOpacity = computed(() => {
   const value = Number(route.query.overlayOpacity ?? 0.5)
@@ -50,6 +52,22 @@ const activeComponent = computed(() =>
   components.find(component => component.id === activeComponentId.value) ?? components[0],
 )
 
+const activeComponentIndex = computed(() =>
+  components.findIndex(component => component.id === activeComponentId.value),
+)
+
+const previousComponent = computed(() => {
+  const index = activeComponentIndex.value
+  const prevIndex = index <= 0 ? components.length - 1 : index - 1
+  return components[prevIndex] ?? components[0]
+})
+
+const nextComponent = computed(() => {
+  const index = activeComponentIndex.value
+  const nextIndex = index === -1 || index >= components.length - 1 ? 0 : index + 1
+  return components[nextIndex] ?? components[0]
+})
+
 const linkCopied = ref(false)
 let copyResetTimer: ReturnType<typeof setTimeout> | undefined
 
@@ -83,6 +101,24 @@ async function copyComponentLink() {
   }, 2000)
 }
 
+function selectComponent(componentId: string) {
+  activeComponentId.value = componentId
+  showMobileComponents.value = false
+  router.replace({ query: { ...route.query, component: componentId } })
+}
+
+function closeMobileComponents() {
+  showMobileComponents.value = false
+}
+
+function goToPreviousComponent() {
+  selectComponent(previousComponent.value.id)
+}
+
+function goToNextComponent() {
+  selectComponent(nextComponent.value.id)
+}
+
 onUnmounted(() => {
   if (copyResetTimer) {
     clearTimeout(copyResetTimer)
@@ -109,13 +145,42 @@ const propsList = [
 
       <!-- Main Area -->
       <div class="modules-layout">
-        <aside class="modules-sidebar">
+        <button
+          type="button"
+          class="modules-mobile-bar"
+          @click="showMobileComponents = true"
+        >
+          <span class="modules-mobile-bar__icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="3" y="3" width="6" height="6" rx="1.5" fill="#7fd087"/>
+              <rect x="11" y="3" width="6" height="6" rx="1.5" fill="#7fd087"/>
+              <rect x="3" y="11" width="6" height="6" rx="1.5" fill="#7fd087"/>
+              <rect x="11" y="11" width="6" height="6" rx="1.5" fill="#7fd087"/>
+            </svg>
+          </span>
+          <span class="modules-mobile-bar__label">Компоненты</span>
+          <span class="modules-mobile-bar__current">{{ activeComponent.name }}</span>
+        </button>
+
+        <button
+          v-show="showMobileComponents"
+          type="button"
+          class="modules-sidebar-backdrop"
+          aria-label="Закрыть список компонентов"
+          @click="closeMobileComponents"
+        />
+
+        <aside
+          class="modules-sidebar"
+          :class="{ 'modules-sidebar--open': showMobileComponents }"
+        >
           <h2 class="modules-sidebar__title">Компоненты</h2>
           <ul class="modules-sidebar__list" data-lenis-prevent>
             <li v-for="comp in components" :key="comp.id" class="modules-sidebar__list-item">
               <button
                 class="modules-sidebar__item"
                 :class="{ 'modules-sidebar__item--expanded': comp.id === activeComponentId }"
+                @click="selectComponent(comp.id)"
               >
                 <span class="modules-sidebar__item-icon">
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -245,13 +310,21 @@ const propsList = [
         </div>
 
               <div class="modules-bottom-nav">
-                <button class="bottom-nav-btn prev">
+                <button
+                  type="button"
+                  class="bottom-nav-btn prev"
+                  @click="goToPreviousComponent"
+                >
                   <span class="nav-dir">&lt;- Предыдущий</span>
-                  <strong class="nav-title">VideoPlayer</strong>
+                  <strong class="nav-title">{{ previousComponent.name }}</strong>
                 </button>
-                <button class="bottom-nav-btn next">
+                <button
+                  type="button"
+                  class="bottom-nav-btn next"
+                  @click="goToNextComponent"
+                >
                   <span class="nav-dir">Далее -&gt;</span>
-                  <strong class="nav-title">FileUploader</strong>
+                  <strong class="nav-title">{{ nextComponent.name }}</strong>
                 </button>
               </div>
             </main>
@@ -313,7 +386,7 @@ const propsList = [
 }
 
 .modules-sidebar {
-  width: 280px;
+  width: var(--modules-sidebar-width);
   flex-shrink: 0;
   align-self: flex-start;
   position: sticky;
@@ -322,13 +395,18 @@ const propsList = [
   max-height: calc(100vh - 16px);
   background: #f1f3f8;
   border-radius: 28px;
-  margin: 0 16px 8px 103px;
+  margin: 0 16px 8px var(--modules-sidebar-offset);
   padding: 32px 16px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   z-index: 5;
+}
+
+.modules-mobile-bar,
+.modules-sidebar-backdrop {
+  display: none;
 }
 
 .modules-sidebar__title {
@@ -759,15 +837,19 @@ const propsList = [
 }
 
 .modules-right {
-  width: 320px;
+  width: var(--modules-right-width);
+  flex-shrink: 0;
   padding: 0 0 8px 0;
 }
 
 .right-panel {
-  position:fixed;
+  position: sticky;
+  top: 8px;
   border-radius: 28px;
   padding: 32px 24px;
-  height: 100%;
+  height: auto;
+  max-height: calc(100vh - 16px);
+  box-sizing: border-box;
 }
 
 .right-panel__label {
@@ -811,5 +893,325 @@ const propsList = [
   background: #F1F3F9;
   border: 1px solid #DEDEDE;
   color: var(--color-text-primary);
+}
+
+@media (max-width: 1439px) {
+  .modules-sidebar {
+    width: 240px;
+    margin-left: calc(var(--sidebar-width) + 12px);
+  }
+
+  .modules-right {
+    width: 260px;
+  }
+
+  .modules-content {
+    padding: 36px 32px;
+  }
+
+  .modules-title {
+    font-size: clamp(44px, 5vw, 68px);
+    letter-spacing: -1px;
+  }
+}
+
+@media (max-width: 1279px) {
+  .modules-top {
+    flex-direction: column;
+  }
+
+  .modules-main {
+    padding-right: 0;
+  }
+
+  .modules-right {
+    width: 100%;
+    padding: 0 0 12px;
+  }
+
+  .right-panel {
+    position: static;
+    max-height: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 20px;
+    padding: 20px 24px;
+    background: #f1f3f8;
+    border-radius: 20px;
+  }
+
+  .right-panel__label {
+    margin-bottom: 0;
+    width: 100%;
+  }
+
+  .right-panel__title {
+    margin-bottom: 0;
+    font-size: 20px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .right-panel__tabs {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .tab {
+    width: auto;
+    min-width: 112px;
+    height: 44px;
+  }
+
+  .modules-content-area {
+    padding-right: 16px;
+  }
+
+  .modules-page-footer {
+    margin-top: 80px;
+  }
+}
+
+@media (max-width: 767px) {
+  .page {
+    flex-direction: column;
+    padding-bottom: 88px;
+  }
+
+  .modules-layout {
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .modules-mobile-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: calc(100% - 32px);
+    margin: 12px 16px 0;
+    padding: 14px 16px;
+    border: none;
+    border-radius: 16px;
+    background: #f1f3f8;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .modules-mobile-bar__icon {
+    display: flex;
+    flex-shrink: 0;
+  }
+
+  .modules-mobile-bar__label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    flex-shrink: 0;
+  }
+
+  .modules-mobile-bar__current {
+    margin-left: auto;
+    font-size: 13px;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+  }
+
+  .modules-sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    border: none;
+    background: rgba(0, 0, 0, 0.35);
+    cursor: pointer;
+  }
+
+  .modules-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    width: min(320px, 88vw);
+    height: 100vh;
+    max-height: 100vh;
+    margin: 0;
+    border-radius: 0 28px 28px 0;
+    transform: translateX(-105%);
+    transition: transform 0.3s ease;
+  }
+
+  .modules-sidebar--open {
+    transform: translateX(0);
+  }
+
+  .modules-content-area {
+    padding: 0 16px;
+  }
+
+  .modules-content {
+    padding: 24px 20px;
+    gap: 24px;
+    border-radius: 24px;
+  }
+
+  .modules-title {
+    font-size: clamp(28px, 8vw, 40px);
+    letter-spacing: -0.6px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .share-btn {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+  }
+
+  .modules-actions-wrapper {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .btn,
+  .btn-text {
+    width: 100%;
+    text-align: center;
+  }
+
+  .props-table th,
+  .props-table td {
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+
+  .props-table th:nth-child(3),
+  .props-table td:nth-child(3),
+  .props-table th:nth-child(4),
+  .props-table td:nth-child(4) {
+    min-width: 120px;
+  }
+
+  .modules-bottom-nav {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .bottom-nav-btn {
+    padding: 24px;
+    border-radius: 24px;
+  }
+
+  .nav-title {
+    font-size: 20px;
+  }
+
+  .modules-page-footer {
+    margin-top: 48px;
+    margin-bottom: 8px;
+  }
+
+  .right-panel {
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+  .right-panel__title {
+    font-size: 18px;
+    width: 100%;
+  }
+
+  .tab {
+    min-width: 0;
+    flex: 1;
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modules-sidebar {
+    transition: none;
+  }
+}
+
+@media (min-width: 2560px) {
+  .modules-content {
+    padding: 64px;
+    gap: 40px;
+    border-radius: 32px;
+  }
+
+  .modules-title {
+    font-size: var(--font-size-hero-title);
+    letter-spacing: -2px;
+    gap: 20px;
+  }
+
+  .share-btn {
+    width: 56px;
+    height: 56px;
+  }
+
+  .modules-actions-wrapper {
+    padding: 12px 20px;
+    border-radius: 20px;
+  }
+
+  .btn {
+    padding: 16px 32px;
+    font-size: 16px;
+  }
+
+  .props-table th,
+  .props-table td {
+    padding: 24px 32px;
+    font-size: 16px;
+  }
+
+  .bottom-nav-btn {
+    padding: 40px 48px;
+    border-radius: 32px;
+  }
+
+  .nav-title {
+    font-size: 28px;
+  }
+
+  .right-panel {
+    padding: 40px 32px;
+    border-radius: 32px;
+  }
+
+  .right-panel__title {
+    font-size: 28px;
+    margin-bottom: 32px;
+  }
+
+  .tab {
+    width: 100%;
+    max-width: 200px;
+    height: 52px;
+    font-size: 16px;
+  }
+
+  .modules-page-footer {
+    margin-top: 140px;
+  }
+
+  .modules-sidebar {
+    padding: 40px 20px;
+    border-radius: 32px;
+  }
+
+  .modules-sidebar__item {
+    font-size: 16px;
+    padding: 14px 18px;
+  }
 }
 </style>

@@ -28,10 +28,34 @@
   --font-size-card-description: 14px;
 
   --sidebar-width: 95px;
-  --page-width: 1920px;
+  --page-width: 100%;
   --page-height: 1080px;
   --radius-xl: 48px;
   --radius-lg: 32px;
   --radius-md: 16px;
   --radius-sm: 12px;
+
+  --content-offset-left: 111px;
+  --modules-sidebar-width: 280px;
+  --modules-sidebar-offset: 103px;
+  --modules-right-width: 320px;
+  --space-page-x: 0;
+  --space-section: 48px;
+}
+
+@media (min-width: 2560px) {
+  :root {
+    --font-size-hero-title: 84px;
+    --font-size-hero-subtitle: 24px;
+    --font-size-section-title: 40px;
+    --font-size-card-description: 16px;
+    --sidebar-width: 112px;
+    --content-offset-left: 128px;
+    --modules-sidebar-width: 340px;
+    --modules-sidebar-offset: 120px;
+    --modules-right-width: 380px;
+    --space-section: 64px;
+    --radius-xl: 56px;
+    --radius-lg: 40px;
+  }
 }

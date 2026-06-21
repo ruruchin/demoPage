@@ -40,7 +40,8 @@ withDefaults(defineProps<Props>(), {
 
 <style scoped>
 .design-card {
-  width: 429px;
+  width: 100%;
+  max-width: 429px;
   min-height: 400px;
   display: flex;
   flex-direction: column;
@@ -48,6 +49,12 @@ withDefaults(defineProps<Props>(), {
   border: 1px solid var(--color-border-light);
   border-radius: var(--radius-lg);
   overflow: hidden;
+}
+
+@media (max-width: 1279px) {
+  .design-card {
+    max-width: none;
+  }
 }
 
 .design-card__media {
@@ -105,5 +112,24 @@ withDefaults(defineProps<Props>(), {
   background: var(--color-green-light);
   border-color: var(--color-green-light);
   color: var(--color-text-primary);
+}
+
+@media (min-width: 2560px) {
+  .design-card {
+    max-width: none;
+    min-height: 480px;
+  }
+
+  .design-card__media {
+    height: 280px;
+  }
+
+  .design-card__body {
+    padding: 32px;
+  }
+
+  .design-card__title {
+    font-size: 24px;
+  }
 }
 </style>

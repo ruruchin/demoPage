@@ -186,4 +186,97 @@ const navItems: NavItem[] = [
   border-radius: 50%;
   background: var(--color-white);
 }
+
+@media (max-width: 767px) {
+  .sidebar {
+    top: auto;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    width: auto;
+    min-width: 0;
+    height: auto;
+  }
+
+  .sidebar__panel {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 24px;
+    padding: 10px 14px;
+    gap: 8px;
+  }
+
+  .sidebar__top,
+  .sidebar__bottom {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .sidebar__top {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .sidebar__bottom {
+    flex-shrink: 0;
+    gap: 4px;
+  }
+
+  .sidebar__search {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+  }
+
+  .sidebar__nav {
+    flex-direction: row;
+    gap: 4px;
+    width: auto;
+  }
+
+  .sidebar__nav-item {
+    width: auto;
+    min-height: 0;
+    flex-direction: column;
+    padding: 6px 10px;
+    gap: 4px;
+  }
+
+  .sidebar__nav-label {
+    font-size: 10px;
+  }
+
+  .sidebar__settings {
+    width: 40px;
+    height: 40px;
+  }
+
+  .sidebar__logo {
+    width: 40px;
+    height: 40px;
+  }
+
+  .sidebar__logo img {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+@media (min-width: 2560px) {
+  .sidebar__search {
+    width: 68px;
+    height: 68px;
+  }
+
+  .sidebar__nav-item {
+    width: 68px;
+    min-height: 68px;
+  }
+
+  .sidebar__nav-label {
+    font-size: 13px;
+  }
+}
 </style>

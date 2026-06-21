@@ -40,6 +40,28 @@
   min-height: 544px;
 }
 
+@media (max-width: 1279px) {
+  .hero {
+    height: auto;
+    min-height: 0;
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 767px) {
+  .hero {
+    gap: 12px;
+  }
+}
+
+@media (min-width: 2560px) {
+  .hero {
+    height: 680px;
+    min-height: 680px;
+    gap: 12px;
+  }
+}
+
 .hero__card {
   background: #F1F3F9;
   background-color: #F1F3F9;
@@ -52,6 +74,19 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+@media (max-width: 767px) {
+  .hero__card--text {
+    border-radius: 28px 28px 120px 28px;
+    padding: 28px 24px 40px;
+  }
+}
+
+@media (min-width: 2560px) {
+  .hero__card--text {
+    padding: 52px 64px 72px;
+  }
 }
 
 .hero__logo {
@@ -69,6 +104,21 @@
   margin-bottom: 20px;
 }
 
+@media (max-width: 767px) {
+  .hero__title {
+    font-size: clamp(36px, 10vw, 52px);
+    letter-spacing: -0.8px;
+    margin-bottom: 16px;
+  }
+}
+
+@media (min-width: 2560px) {
+  .hero__title {
+    letter-spacing: -2px;
+    margin-bottom: 28px;
+  }
+}
+
 .hero__description {
   max-width: 640px;
   font-family: var(--font-family);
@@ -81,6 +131,14 @@
 .hero__card--graphic {
   border-radius: var(--radius-xl) var(--radius-xl) var(--radius-xl) 180px;
   position: relative;
+  min-height: 280px;
+}
+
+@media (max-width: 767px) {
+  .hero__card--graphic {
+    border-radius: 28px 28px 28px 120px;
+    min-height: 220px;
+  }
 }
 
 .hero__graphic {
