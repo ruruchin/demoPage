@@ -60,6 +60,9 @@
   --radius-md: 16px;
   --radius-sm: 12px;
 
+  --page-inset-top: 8px;
+  --page-inset-bottom: 8px;
+
   --content-offset-left: 111px;
   --modules-sidebar-width: 280px;
   --modules-sidebar-offset: 103px;

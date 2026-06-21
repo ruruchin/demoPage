@@ -55,13 +55,14 @@ withDefaults(defineProps<{
 <style scoped>
 .footer {
   margin-top: 120px;
+  flex-shrink: 0;
   background-color: var(--color-sidebar-bg);
-  border-top-left-radius: var(--radius-xl);
-  border-top-right-radius: var(--radius-xl);
+  border-radius: var(--radius-xl);
   padding: 72px 76px 154px 76px;
   width: 100%;
   height: 454px;
   box-sizing: border-box;
+  overflow: hidden;
   transition: background-color 0.3s ease;
 }
 
@@ -165,6 +166,7 @@ withDefaults(defineProps<{
   height: auto;
   min-height: 380px;
   width: 100%;
+  overflow: hidden;
 }
 
 .footer--modules .footer__content {
@@ -221,8 +223,7 @@ withDefaults(defineProps<{
   .footer {
     margin-top: 64px;
     padding: 32px 24px 48px;
-    border-top-left-radius: 28px;
-    border-top-right-radius: 28px;
+    border-radius: 28px;
   }
 
   .footer__content {

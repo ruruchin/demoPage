@@ -51,24 +51,26 @@ const cards = [
       <SidebarNav />
 
       <main class="page__main">
-        <HeroBlock />
+        <div class="page__main-body">
+          <HeroBlock />
 
-        <section class="basics">
-          <h2 class="basics__title">
-            Основы дизайна
-          </h2>
+          <section class="basics">
+            <h2 class="basics__title">
+              Основы дизайна
+            </h2>
 
-          <div class="basics__grid">
-            <DesignCard
-              v-for="card in cards"
-              :key="card.title"
-              :title="card.title"
-              :description="card.description"
-              :image="card.image"
-            />
-            <GuideBlock />
-          </div>
-        </section>
+            <div class="basics__grid">
+              <DesignCard
+                v-for="card in cards"
+                :key="card.title"
+                :title="card.title"
+                :description="card.description"
+                :image="card.image"
+              />
+              <GuideBlock />
+            </div>
+          </section>
+        </div>
 
         <PageFooter />
       </main>

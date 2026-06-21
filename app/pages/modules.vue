@@ -413,15 +413,19 @@ const propsList = [
   display: flex;
   flex: 1;
   min-width: 0;
+  min-height: calc(100vh - var(--page-inset-top));
   align-items: flex-start;
 }
 
 .modules-content-area {
   flex: 1;
   min-width: 0;
+  min-height: 100%;
+  align-self: stretch;
   display: flex;
   flex-direction: column;
   padding-right: 20px;
+  padding-bottom: var(--page-inset-bottom);
   box-sizing: border-box;
 }
 
@@ -433,7 +437,7 @@ const propsList = [
 
 .modules-page-footer {
   margin-top: 120px;
-  margin-bottom: 16px;
+  margin-bottom: 0;
   width: 100%;
   box-sizing: border-box;
 }

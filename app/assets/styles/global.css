@@ -49,7 +49,7 @@ body,
   min-height: 100vh;
   display: flex;
   background: var(--color-page-bg);
-  padding-top: 8px;
+  padding-top: var(--page-inset-top);
   box-sizing: border-box;
   transition: background-color 0.3s ease;
 }
@@ -59,8 +59,17 @@ body,
   min-width: 0;
   display: flex;
   flex-direction: column;
-  padding: 0 8px 16px 0;
+  min-height: calc(100vh - var(--page-inset-top));
+  padding: 0 20px var(--page-inset-bottom) 0;
   margin-left: var(--content-offset-left);
+  box-sizing: border-box;
+}
+
+.page__main-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 
 .basics {
@@ -207,6 +216,62 @@ body,
   animation-delay: 0.52s;
 }
 
+/* Search page entrance */
+.search-hero__label {
+  animation: fadeInUp 0.5s ease-out both;
+  animation-delay: 0.12s;
+}
+
+.search-hero__title {
+  animation: fadeInUp 0.6s ease-out both;
+  animation-delay: 0.2s;
+}
+
+.search-hero__subtitle {
+  animation: fadeInUp 0.6s ease-out both;
+  animation-delay: 0.28s;
+}
+
+.search-form {
+  animation: fadeInUp 0.6s ease-out both;
+  animation-delay: 0.36s;
+}
+
+.search-results__header {
+  animation: fadeInUp 0.6s ease-out both;
+  animation-delay: 0.44s;
+}
+
+.search-filter {
+  animation: fadeInUp 0.45s ease-out both;
+}
+
+.search-filter:nth-child(1) { animation-delay: 0.5s; }
+.search-filter:nth-child(2) { animation-delay: 0.54s; }
+.search-filter:nth-child(3) { animation-delay: 0.58s; }
+.search-filter:nth-child(4) { animation-delay: 0.62s; }
+
+.search-list li {
+  animation: fadeInUp 0.45s ease-out both;
+}
+
+.search-list li:nth-child(1) { animation-delay: 0.66s; }
+.search-list li:nth-child(2) { animation-delay: 0.7s; }
+.search-list li:nth-child(3) { animation-delay: 0.74s; }
+.search-list li:nth-child(4) { animation-delay: 0.78s; }
+.search-list li:nth-child(5) { animation-delay: 0.82s; }
+.search-list li:nth-child(n + 6) { animation-delay: 0.86s; }
+
+.search-empty {
+  animation: fadeInUp 0.6s ease-out both;
+  animation-delay: 0.66s;
+}
+
+.search-page .footer {
+  animation: fadeInUp 0.6s ease-out both;
+  animation-delay: 0.78s;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .sidebar,
   .hero__card,
@@ -223,7 +288,16 @@ body,
   .right-panel__title,
   .right-panel__tabs .tab,
   .modules-bottom-nav,
-  .modules-page-footer {
+  .modules-page-footer,
+  .search-hero__label,
+  .search-hero__title,
+  .search-hero__subtitle,
+  .search-form,
+  .search-results__header,
+  .search-filter,
+  .search-list li,
+  .search-empty,
+  .search-page .footer {
     animation: none;
   }
 }

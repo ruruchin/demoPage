@@ -22,9 +22,14 @@ const navItems: NavItem[] = [
   <aside class="sidebar">
     <div class="sidebar__panel">
       <div class="sidebar__top">
-        <button class="sidebar__search" type="button" aria-label="Поиск">
+        <NuxtLink
+          to="/search"
+          class="sidebar__search"
+          :class="{ 'sidebar__search--active': route.path === '/search' }"
+          aria-label="Поиск"
+        >
           <img src="/assets/icons/search.svg" alt="" width="24" height="24">
-        </button>
+        </NuxtLink>
 
         <nav class="sidebar__nav" aria-label="Основная навигация">
           <NuxtLink
@@ -65,12 +70,12 @@ const navItems: NavItem[] = [
 <style scoped>
 .sidebar {
   position: fixed;
-  top: 8px;
-  left: 8px;
-  bottom: 8px;
+  top: var(--page-inset-top);
+  left: var(--page-inset-top);
+  bottom: var(--page-inset-bottom);
   width: var(--sidebar-width);
   min-width: var(--sidebar-width);
-  height: calc(100vh - 16px);
+  height: calc(100vh - var(--page-inset-top) - var(--page-inset-bottom));
   display: flex;
   justify-content: center;
   padding: 0;
@@ -106,10 +111,15 @@ const navItems: NavItem[] = [
   border-radius: 14px;
   background: var(--color-accent-soft);
   transition: background-color 0.2s ease;
+  text-decoration: none;
 }
 
 .sidebar__search:hover {
   background: var(--color-accent-soft-hover);
+}
+
+.sidebar__search--active {
+  background: var(--color-accent-active);
 }
 
 .sidebar__search img,
