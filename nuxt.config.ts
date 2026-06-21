@@ -3,6 +3,22 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   modules: ['lenis/nuxt'],
+  sourcemap: {
+    client: 'hidden',
+  },
+  vite: {
+    build: {
+      rollupOptions: {
+        onwarn(warning, warn) {
+          if (warning.code === 'SOURCEMAP_BROKEN') {
+            return
+          }
+
+          warn(warning)
+        },
+      },
+    },
+  },
   css: [
     '~/assets/styles/reset.css',
     '~/assets/styles/tokens.css',
