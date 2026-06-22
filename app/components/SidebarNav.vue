@@ -10,6 +10,7 @@ interface NavItem {
 
 const route = useRoute()
 const { theme, toggleTheme } = useTheme()
+const { paused: videosPaused, toggle: toggleVideosPaused } = useSiteVideosPaused()
 
 const navItems: NavItem[] = [
   { id: 'home', label: 'Главная', icon: '/assets/icons/home-new.svg', to: '/' },
@@ -49,6 +50,38 @@ const navItems: NavItem[] = [
       </div>
 
       <div class="sidebar__bottom">
+        <button
+          type="button"
+          class="sidebar__pause"
+          :class="{ 'sidebar__pause--active': videosPaused }"
+          :aria-label="videosPaused ? 'Возобновить все видео' : 'Пауза для всех видео'"
+          :aria-pressed="videosPaused"
+          @click="toggleVideosPaused"
+        >
+          <svg
+            v-if="videosPaused"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <path d="M9 7V17L17 12L9 7Z" fill="currentColor" />
+          </svg>
+          <svg
+            v-else
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <path d="M9 7H7V17H9V7ZM17 7H15V17H17V7Z" fill="currentColor" />
+          </svg>
+        </button>
+
         <button
           type="button"
           class="sidebar__settings"
@@ -187,14 +220,29 @@ const navItems: NavItem[] = [
   gap: 22px;
 }
 
-.sidebar__settings {
+.sidebar__settings,
+.sidebar__pause {
   width: 44px;
   height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 14px;
+  border: none;
+  background: transparent;
+  color: var(--color-text-primary);
+  cursor: pointer;
   transition: background-color 0.2s ease, transform 0.25s ease;
+}
+
+.sidebar__pause:hover,
+.sidebar__settings:hover {
+  background: var(--color-overlay-hover);
+}
+
+.sidebar__pause--active,
+.sidebar__settings--active {
+  background: var(--color-accent-active);
 }
 
 .sidebar__settings img {
@@ -203,14 +251,6 @@ const navItems: NavItem[] = [
 
 [data-theme='dark'] .sidebar__settings img {
   filter: brightness(0) saturate(100%) invert(1);
-}
-
-.sidebar__settings:hover {
-  background: var(--color-overlay-hover);
-}
-
-.sidebar__settings--active {
-  background: var(--color-accent-active);
 }
 
 .sidebar__settings--active img {
@@ -289,7 +329,8 @@ const navItems: NavItem[] = [
     font-size: 10px;
   }
 
-  .sidebar__settings {
+  .sidebar__settings,
+  .sidebar__pause {
     width: 40px;
     height: 40px;
   }

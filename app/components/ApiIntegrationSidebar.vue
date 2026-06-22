@@ -18,9 +18,12 @@ defineEmits<{
     class="guide-sidebar"
     :class="{ 'guide-sidebar--open': open }"
   >
-    <h2 class="guide-sidebar__title">
-      Интеграции
-    </h2>
+    <div class="guide-sidebar__header">
+      <h2 class="guide-sidebar__title">
+        Интеграции
+      </h2>
+      <GuideSidebarToggle />
+    </div>
 
     <nav aria-label="Разделы API">
       <ul class="guide-sidebar__list" data-lenis-prevent>

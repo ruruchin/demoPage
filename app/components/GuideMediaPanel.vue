@@ -7,12 +7,32 @@ const props = defineProps<{
 
 const videoRef = ref<HTMLVideoElement | null>(null)
 const videoError = ref(false)
+const videoLoaded = ref(false)
 const hasVideoSource = computed(() => props.media.kind === 'video' && Boolean(props.media.src))
+const showVideo = computed(() => props.media.kind === 'video' && hasVideoSource.value && (!videoError.value || videoLoaded.value))
+const { paused: videosPaused, syncVideo } = useSiteVideosPaused()
+
+function markVideoLoaded() {
+  videoLoaded.value = true
+  const video = videoRef.value
+  if (video) {
+    video.removeAttribute('poster')
+  }
+}
 
 async function ensurePlayback() {
   const video = videoRef.value
-  if (!video || videoError.value) {
+  if (!video || (videoError.value && !videoLoaded.value)) {
     return
+  }
+
+  if (videosPaused.value) {
+    video.pause()
+    return
+  }
+
+  if (!video.paused) {
+    markVideoLoaded()
   }
 
   video.loop = props.media.kind === 'video' ? (props.media.loop ?? true) : true
@@ -21,6 +41,7 @@ async function ensurePlayback() {
   try {
     if (video.paused) {
       await video.play()
+      markVideoLoaded()
     }
   }
   catch {
@@ -28,8 +49,22 @@ async function ensurePlayback() {
   }
 }
 
-function onVideoError() {
+function onVideoError(event: Event) {
+  const video = event.target as HTMLVideoElement
+  if (videosPaused.value || video.error?.code === MediaError.MEDIA_ERR_ABORTED) {
+    return
+  }
+
+  if (videoLoaded.value) {
+    return
+  }
+
   videoError.value = true
+}
+
+function onVideoLoadedData() {
+  markVideoLoaded()
+  void ensurePlayback()
 }
 
 function onVideoEnded() {
@@ -43,15 +78,20 @@ function onVideoEnded() {
 }
 
 function onVisibilityChange() {
-  if (document.visibilityState === 'visible') {
+  if (document.visibilityState === 'visible' && !videosPaused.value) {
     void ensurePlayback()
   }
 }
+
+watch(videosPaused, () => {
+  syncVideo(videoRef.value)
+})
 
 watch(
   () => props.media,
   () => {
     videoError.value = false
+    videoLoaded.value = false
     nextTick(() => {
       void ensurePlayback()
     })
@@ -60,6 +100,7 @@ watch(
 )
 
 onMounted(() => {
+  syncVideo(videoRef.value)
   void ensurePlayback()
   document.addEventListener('visibilitychange', onVisibilityChange)
 })
@@ -72,13 +113,13 @@ onUnmounted(() => {
 <template>
   <div class="guide-media-panel" :class="`guide-media-panel--${media.kind}`">
     <video
-      v-if="media.kind === 'video' && hasVideoSource && !videoError"
+      v-if="showVideo"
       :key="media.src"
       ref="videoRef"
       class="guide-media-panel__video"
       :src="media.src"
-      :poster="media.poster"
-      autoplay
+      :poster="videoLoaded ? undefined : media.poster"
+      :autoplay="!videosPaused"
       muted
       loop
       playsinline
@@ -86,17 +127,10 @@ onUnmounted(() => {
       preload="auto"
       :aria-label="media.alt"
       @canplay="ensurePlayback"
-      @loadeddata="ensurePlayback"
+      @loadeddata="onVideoLoadedData"
       @ended="onVideoEnded"
       @error="onVideoError"
     />
-
-    <img
-      v-else-if="media.kind === 'video' && media.poster"
-      class="guide-media-panel__image guide-media-panel__image--cover"
-      :src="media.poster"
-      :alt="media.alt ?? ''"
-    >
 
     <img
       v-else-if="media.kind === 'image' || media.kind === 'svg'"

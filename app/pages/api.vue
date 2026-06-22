@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { apiIntegrations, apiPageMeta, apiPlatformBadges } from '~/data/apiPageContent'
+import { BASICS_VIDEO_POSTER } from '~/utils/basicsHeroMedia'
 
 const route = useRoute()
 
@@ -45,7 +46,7 @@ function closeMobileNav() {
   showMobileNav.value = false
 }
 
-import { BASICS_VIDEO_POSTER } from '~/utils/basicsHeroMedia'
+const { collapsed: sidebarCollapsed } = useGuideSidebarCollapsed()
 
 const heroMedia = {
   kind: 'video' as const,
@@ -66,7 +67,10 @@ const heroMedia = {
 
       <SidebarNav />
 
-      <div class="guide-layout api-layout">
+      <div
+        class="guide-layout api-layout"
+        :class="{ 'guide-layout--sidebar-collapsed': sidebarCollapsed }"
+      >
         <button
           type="button"
           class="guide-mobile-bar"

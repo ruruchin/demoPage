@@ -58,6 +58,27 @@ const activeComponentIndex = computed(() =>
   components.findIndex(component => component.id === activeComponentId.value),
 )
 
+const componentSearch = ref('')
+
+const filteredComponents = computed(() => {
+  const query = componentSearch.value.trim().toLowerCase()
+  if (!query) {
+    return components
+  }
+
+  return components.filter(component =>
+    component.name.toLowerCase().includes(query),
+  )
+})
+
+const hasComponentSearch = computed(() => componentSearch.value.trim().length > 0)
+
+function clearComponentSearch() {
+  componentSearch.value = ''
+}
+
+const { collapsed: sidebarCollapsed } = useModulesSidebarCollapsed()
+
 const previousComponent = computed(() => {
   const index = activeComponentIndex.value
   const prevIndex = index <= 0 ? components.length - 1 : index - 1
@@ -151,7 +172,10 @@ const propsList = [
       <SidebarNav />
 
       <!-- Main Area -->
-      <div class="modules-layout">
+      <div
+        class="modules-layout"
+        :class="{ 'modules-layout--sidebar-collapsed': sidebarCollapsed }"
+      >
         <button
           type="button"
           class="modules-mobile-bar"
@@ -181,9 +205,35 @@ const propsList = [
           class="modules-sidebar"
           :class="{ 'modules-sidebar--open': showMobileComponents }"
         >
-          <h2 class="modules-sidebar__title">Компоненты</h2>
-          <ul class="modules-sidebar__list" data-lenis-prevent>
-            <li v-for="comp in components" :key="comp.id" class="modules-sidebar__list-item">
+          <div class="modules-sidebar__header">
+            <h2 class="modules-sidebar__title">Компоненты</h2>
+            <ModulesSidebarToggle />
+          </div>
+
+          <label class="modules-sidebar__search">
+            <span class="modules-sidebar__search-icon" aria-hidden="true">
+              <img src="/assets/icons/search.svg" alt="" width="18" height="18">
+            </span>
+            <input
+              v-model="componentSearch"
+              type="search"
+              class="modules-sidebar__search-input"
+              placeholder="Поиск компонента..."
+              autocomplete="off"
+            >
+            <button
+              v-if="hasComponentSearch"
+              type="button"
+              class="modules-sidebar__search-clear"
+              aria-label="Очистить поиск"
+              @click="clearComponentSearch"
+            >
+              ×
+            </button>
+          </label>
+
+          <ul v-if="filteredComponents.length" class="modules-sidebar__list" data-lenis-prevent>
+            <li v-for="comp in filteredComponents" :key="comp.id" class="modules-sidebar__list-item">
               <button
                 class="modules-sidebar__item"
                 :class="{ 'modules-sidebar__item--expanded': comp.id === activeComponentId }"
@@ -259,6 +309,10 @@ const propsList = [
               </div>
             </li>
           </ul>
+
+          <p v-else class="modules-sidebar__empty">
+            Компонент не найден
+          </p>
         </aside>
 
         <div class="modules-content-area">
@@ -459,6 +513,10 @@ const propsList = [
   flex-direction: column;
   overflow: hidden;
   z-index: 5;
+  transition:
+    width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    padding 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 0.3s ease;
 }
 
 .modules-mobile-bar,
@@ -469,10 +527,146 @@ const propsList = [
 .modules-sidebar__title {
   font-size: 14px;
   color: var(--color-text-muted);
-  margin-bottom: 24px;
-  margin-left: 16px;
+  margin: 0;
   font-weight: 500;
+  flex: 1;
+  min-width: 0;
+}
+
+.modules-sidebar__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding-left: 16px;
   flex-shrink: 0;
+}
+
+.modules-sidebar-toggle {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .modules-sidebar-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    margin: 0 4px 0 0;
+    padding: 0;
+    border: 1px solid var(--color-border-light);
+    border-radius: 10px;
+    background: var(--color-surface-muted);
+    color: var(--color-text-primary);
+    cursor: pointer;
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  .modules-sidebar-toggle:hover {
+    background: var(--color-panel-hover);
+  }
+
+  .modules-layout--sidebar-collapsed .modules-sidebar {
+    width: 56px;
+    min-width: 56px;
+    padding: 32px 12px;
+  }
+
+  .modules-layout--sidebar-collapsed .modules-sidebar__header {
+    padding: 0;
+    margin-bottom: 0;
+    justify-content: center;
+  }
+
+  .modules-layout--sidebar-collapsed .modules-sidebar__title,
+  .modules-layout--sidebar-collapsed .modules-sidebar__search,
+  .modules-layout--sidebar-collapsed .modules-sidebar__list,
+  .modules-layout--sidebar-collapsed .modules-sidebar__empty {
+    display: none;
+  }
+
+  .modules-layout--sidebar-collapsed .modules-sidebar-toggle {
+    margin: 0;
+  }
+}
+
+.modules-sidebar__search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 16px;
+  padding: 0 12px;
+  min-height: 44px;
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-border-light);
+  border-radius: 12px;
+  flex-shrink: 0;
+  transition: background-color 0.3s ease, border-color 0.2s ease;
+}
+
+.modules-sidebar__search:focus-within {
+  border-color: var(--color-green-primary);
+}
+
+.modules-sidebar__search-icon {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.modules-sidebar__search-icon img {
+  filter: brightness(0) saturate(100%);
+  opacity: 0.55;
+}
+
+[data-theme='dark'] .modules-sidebar__search-icon img {
+  filter: brightness(0) saturate(100%) invert(1);
+  opacity: 0.7;
+}
+
+.modules-sidebar__search-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  color: var(--color-text-primary);
+  outline: none;
+  font-family: inherit;
+}
+
+.modules-sidebar__search-input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.modules-sidebar__search-clear {
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  font-size: 20px;
+  line-height: 1;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.modules-sidebar__search-clear:hover {
+  background: var(--color-panel-hover);
+  color: var(--color-text-primary);
+}
+
+.modules-sidebar__empty {
+  margin: 8px 16px 0;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--color-text-muted);
 }
 
 .modules-sidebar__list {

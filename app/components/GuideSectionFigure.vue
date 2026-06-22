@@ -8,7 +8,11 @@ const props = defineProps<{
 }>()
 
 const mediaError = ref(false)
+const videoLoaded = ref(false)
 const hasSource = computed(() => Boolean(props.figure.src))
+const videoRef = ref<HTMLVideoElement | null>(null)
+const showVideo = computed(() => props.figure.mediaKind === 'video' && hasSource.value && (!mediaError.value || videoLoaded.value))
+const { paused: videosPaused, syncVideo } = useSiteVideosPaused()
 
 const suggestedPath = computed(() =>
   props.figure.mediaKind === 'image'
@@ -17,11 +21,18 @@ const suggestedPath = computed(() =>
 )
 
 async function ensureVideoPlayback(video: HTMLVideoElement) {
+  if (videosPaused.value) {
+    video.pause()
+    return
+  }
+
   video.loop = true
   video.muted = true
   try {
     if (video.paused) {
       await video.play()
+      videoLoaded.value = true
+      video.removeAttribute('poster')
     }
   }
   catch {
@@ -29,7 +40,21 @@ async function ensureVideoPlayback(video: HTMLVideoElement) {
   }
 }
 
-function onMediaError() {
+function onVideoLoadedData(event: Event) {
+  const video = event.target as HTMLVideoElement
+  videoLoaded.value = true
+  video.removeAttribute('poster')
+  void ensureVideoPlayback(video)
+}
+
+function onMediaError(event: Event) {
+  const target = event.target as HTMLVideoElement | HTMLImageElement
+  if (target instanceof HTMLVideoElement) {
+    if (videosPaused.value || target.error?.code === MediaError.MEDIA_ERR_ABORTED || videoLoaded.value) {
+      return
+    }
+  }
+
   mediaError.value = true
 }
 
@@ -37,8 +62,17 @@ watch(
   () => props.figure.src,
   () => {
     mediaError.value = false
+    videoLoaded.value = false
   },
 )
+
+watch(videosPaused, () => {
+  syncVideo(videoRef.value)
+})
+
+onMounted(() => {
+  syncVideo(videoRef.value)
+})
 </script>
 
 <template>
@@ -51,18 +85,20 @@ watch(
       }"
     >
       <video
-        v-if="figure.mediaKind === 'video' && hasSource && !mediaError"
+        v-if="showVideo"
         :key="figure.src"
+        ref="videoRef"
         class="guide-figure__media"
         :src="figure.src"
-        :poster="figure.poster"
-        autoplay
+        :poster="videoLoaded ? undefined : figure.poster"
+        :autoplay="!videosPaused"
         muted
         loop
         playsinline
         preload="auto"
         :aria-label="figure.alt ?? figure.label"
         @canplay="(e) => ensureVideoPlayback(e.target as HTMLVideoElement)"
+        @loadeddata="onVideoLoadedData"
         @error="onMediaError"
       />
 

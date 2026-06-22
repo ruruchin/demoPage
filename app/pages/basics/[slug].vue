@@ -68,6 +68,8 @@ function scrollToSection(sectionId: string, tocId: string) {
 function closeMobileNav() {
   showMobileNav.value = false
 }
+
+const { collapsed: sidebarCollapsed } = useGuideSidebarCollapsed()
 </script>
 
 <template>
@@ -77,7 +79,10 @@ function closeMobileNav() {
 
       <SidebarNav />
 
-      <div class="guide-layout">
+      <div
+        class="guide-layout"
+        :class="{ 'guide-layout--sidebar-collapsed': sidebarCollapsed }"
+      >
         <button
           type="button"
           class="guide-mobile-bar"
