@@ -4,10 +4,13 @@ import {
   BRAND_ELEMENTS_3D,
   BRAND_ELEMENTS_MESH,
 } from '~/utils/brandbookElements'
+import { tieHangingWords } from '~/utils/russianTypography'
 
 defineProps<{
   part: '3d-primitives' | '3d-examples' | '2d' | 'mesh'
 }>()
+
+const t = tieHangingWords
 </script>
 
 <template>
@@ -19,7 +22,7 @@ defineProps<{
     >
       <div class="article-editorial-row__copy">
         <p class="article-editorial-row__body">
-          {{ BRAND_ELEMENTS_3D.intro }}
+          {{ t(BRAND_ELEMENTS_3D.intro) }}
         </p>
       </div>
       <div class="article-editorial-row__media">
@@ -53,10 +56,10 @@ defineProps<{
     >
       <div class="article-editorial-row__copy">
         <h3 class="article-editorial-row__title">
-          {{ BRAND_ELEMENTS_3D.headline }}
+          {{ t(BRAND_ELEMENTS_3D.headline) }}
         </h3>
         <p class="article-editorial-row__body">
-          Примеры использования 3D-объектов в рекламных носителях и баннерах.
+          {{ t('Примеры использования 3D-объектов в рекламных носителях и баннерах.') }}
         </p>
       </div>
       <div class="article-editorial-row__media">
@@ -81,7 +84,7 @@ defineProps<{
     >
       <div class="article-editorial-row__copy">
         <p class="article-editorial-row__body">
-          {{ BRAND_ELEMENTS_2D.intro }}
+          {{ t(BRAND_ELEMENTS_2D.intro) }}
         </p>
       </div>
       <div class="article-editorial-row__media">
@@ -110,10 +113,10 @@ defineProps<{
           :key="index"
           class="article-editorial-row__body"
         >
-          {{ paragraph }}
+          {{ t(paragraph) }}
         </p>
         <p class="article-editorial-row__body">
-          {{ BRAND_ELEMENTS_MESH.toolPrefix }}
+          {{ t(BRAND_ELEMENTS_MESH.toolPrefix) }}
           <a
             :href="BRAND_ELEMENTS_MESH.toolUrl"
             target="_blank"

@@ -12,7 +12,7 @@ export const typographyGuide: BasicsGuidePage = {
   subtitle: 'Гайд по использованию типографии на продуктах, использующих гайдлайны системы',
   sidebarLabel: 'Типографика',
   cardDescription: 'Правила работы со шрифтами и текстовыми стилями в дизайне',
-  cardImage: '/assets/images/Типографика.png',
+  cardImage: '/assets/images/card-typography.svg',
   cardVideo: getBasicsCardVideo(slug),
   media: getBasicsHeroMedia(slug, 'Типографика'),
   tabs: [

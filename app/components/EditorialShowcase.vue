@@ -10,6 +10,7 @@ import {
   EDITORIAL_TRACKING,
 } from '~/utils/brandbookEditorial'
 import { GUIDE_EDITORIAL_TABLE_CLASS } from '~/utils/guideLayout'
+import { tieHangingWords } from '~/utils/russianTypography'
 
 defineProps<{
   part:
@@ -22,6 +23,8 @@ defineProps<{
     | 'leading'
     | 'company-name'
 }>()
+
+const t = tieHangingWords
 </script>
 
 <template>
@@ -36,10 +39,10 @@ defineProps<{
         >
           <div class="ed__rule">
             <h4 class="ed__rule-title">
-              {{ item.title }}
+              {{ t(item.title) }}
             </h4>
             <p class="ed__rule-text">
-              {{ item.description }}
+              {{ t(item.description) }}
             </p>
             <div v-if="item.shortcuts" class="ed__shortcuts">
               <p v-for="(line, i) in item.shortcuts" :key="i" class="ed__shortcut">
@@ -52,10 +55,10 @@ defineProps<{
               {{ ex }}
             </p>
             <p class="guide-editorial-table__label guide-editorial-table__label--yes">
-              {{ item.verdict }}
+              {{ t(item.verdict) }}
             </p>
             <p class="guide-editorial-table__note">
-              {{ item.note }}
+              {{ t(item.note) }}
             </p>
           </div>
         </section>
@@ -114,7 +117,7 @@ defineProps<{
               {{ item.ok ? 'Да' : 'Нет' }}
             </p>
             <p class="guide-editorial-table__note">
-              {{ item.label }}
+              {{ t(item.label) }}
             </p>
           </div>
         </section>
@@ -162,7 +165,7 @@ defineProps<{
               {{ ex.ok ? 'Да' : 'Нет' }}
             </p>
             <p class="guide-editorial-table__note">
-              {{ ex.note }}
+              {{ t(ex.note) }}
             </p>
           </div>
         </section>
@@ -227,7 +230,7 @@ defineProps<{
               {{ row.ok ? 'Да' : 'Нет' }}
             </p>
             <p class="guide-editorial-table__note">
-              {{ row.note }}
+              {{ t(row.note) }}
             </p>
           </div>
         </section>
@@ -243,24 +246,24 @@ defineProps<{
         <section class="guide-editorial-table__row guide-editorial-table__row--start ed__row--compare">
           <div class="ed__leading-col">
             <p class="ed__leading-heading ed__leading-heading--bad">
-              {{ EDITORIAL_LEADING.large.bad.title }}
+              {{ t(EDITORIAL_LEADING.large.bad.title) }}
             </p>
             <p class="guide-editorial-table__label guide-editorial-table__label--no">
               Нет
             </p>
             <p class="guide-editorial-table__note">
-              {{ EDITORIAL_LEADING.large.bad.note }}
+              {{ t(EDITORIAL_LEADING.large.bad.note) }}
             </p>
           </div>
           <div class="ed__leading-col">
             <p class="ed__leading-heading ed__leading-heading--good">
-              {{ EDITORIAL_LEADING.large.good.title }}
+              {{ t(EDITORIAL_LEADING.large.good.title) }}
             </p>
             <p class="guide-editorial-table__label guide-editorial-table__label--yes">
               Да
             </p>
             <p class="guide-editorial-table__note">
-              {{ EDITORIAL_LEADING.large.good.note }}
+              {{ t(EDITORIAL_LEADING.large.good.note) }}
             </p>
           </div>
         </section>
@@ -301,7 +304,7 @@ defineProps<{
         <section class="guide-editorial-table__row guide-editorial-table__row--start">
           <div class="guide-editorial-table__sample">
             <p class="guide-editorial-table__label guide-editorial-table__label--yes">
-              {{ EDITORIAL_COMPANY.correct.label }}
+              {{ t(EDITORIAL_COMPANY.correct.label) }}
             </p>
             <p class="ed__company-name">
               {{ EDITORIAL_COMPANY.correct.name }}
@@ -309,13 +312,13 @@ defineProps<{
           </div>
           <div class="guide-editorial-table__verdict">
             <p class="guide-editorial-table__note">
-              {{ EDITORIAL_COMPANY.correct.note }}
+              {{ t(EDITORIAL_COMPANY.correct.note) }}
             </p>
           </div>
         </section>
 
         <p class="guide-editorial-table__section-label">
-          {{ EDITORIAL_COMPANY.incorrect.label }}
+          {{ t(EDITORIAL_COMPANY.incorrect.label) }}
         </p>
 
         <section
@@ -324,11 +327,11 @@ defineProps<{
           class="guide-editorial-table__row guide-editorial-table__row--start"
         >
           <p class="ed__company-wrong">
-            {{ item.text }}
+            {{ t(item.text) }}
           </p>
           <div class="guide-editorial-table__verdict">
             <p class="guide-editorial-table__note">
-              {{ item.note }}
+              {{ t(item.note) }}
             </p>
           </div>
         </section>

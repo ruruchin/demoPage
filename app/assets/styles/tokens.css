@@ -79,6 +79,14 @@
   --content-offset-left: 111px;
   --guide-sidebar-width: 260px;
   --guide-sidebar-offset: 103px;
+  --guide-tabs-track-padding: 8px;
+  --guide-tabs-gap: 8px;
+  --guide-tabs-item-min-height: 48px;
+  --guide-tabs-item-padding-x: 36px;
+  --guide-tabs-item-font-size: 16px;
+  --guide-tabs-radius: 999px;
+  --guide-hero-tabs-gap: var(--space-6);
+  --guide-tabs-content-gap: var(--space-10);
   --modules-sidebar-width: 280px;
   --modules-sidebar-offset: 103px;
   --modules-right-width: 320px;
@@ -119,8 +127,8 @@
   --article-toc-width: 240px;
   --article-scroll-margin: var(--space-6);
   --guide-editorial-table-offset-top: var(--article-space-table-top);
-  --article-editorial-copy-width: 400px;
-  --article-editorial-media-width: 640px;
+  --article-editorial-copy-width: 1fr;
+  --article-editorial-media-width: 400px;
   --article-editorial-gap: var(--space-10);
   --article-body-line-height: 1.6;
 

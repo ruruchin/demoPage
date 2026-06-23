@@ -4,6 +4,7 @@ import {
   groupGuideSectionBlocks,
   isGuideEditorialTableDemo,
 } from '~/utils/guideEditorialLayout'
+import { tieHangingWords } from '~/utils/russianTypography'
 
 const props = defineProps<{
   blocks: GuideContentBlock[]
@@ -12,6 +13,7 @@ const props = defineProps<{
 }>()
 
 const groups = computed(() => groupGuideSectionBlocks(props.blocks, props.slug))
+const t = tieHangingWords
 </script>
 
 <template>
@@ -36,14 +38,14 @@ const groups = computed(() => groupGuideSectionBlocks(props.blocks, props.slug))
             v-if="block.type === 'text'"
             class="guide-section__paragraph guide-editorial-block__paragraph"
           >
-            {{ block.content }}
+            {{ t(block.content) }}
             <template v-if="block.link">
               <a
                 :href="block.link.href"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="guide-section__inline-link"
-              >{{ block.link.label }}</a>
+              >{{ t(block.link.label) }}</a>
             </template>
           </p>
 
@@ -51,7 +53,7 @@ const groups = computed(() => groupGuideSectionBlocks(props.blocks, props.slug))
             v-else-if="block.type === 'heading'"
             class="guide-section__heading guide-editorial-block__heading"
           >
-            {{ block.content }}
+            {{ t(block.content) }}
           </h3>
 
           <ul
@@ -65,22 +67,32 @@ const groups = computed(() => groupGuideSectionBlocks(props.blocks, props.slug))
             >
               <span class="guide-section__icon" aria-hidden="true">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M8 1L9.5 6.5L15 8L9.5 9.5L8 15L6.5 9.5L1 8L6.5 6.5L8 1Z" fill="var(--color-green-primary)" />
+                  <path d="M8 3.5V12.5M3.5 8H12.5" stroke="var(--color-brand-green)" stroke-width="2" stroke-linecap="round" />
                 </svg>
               </span>
-              <span class="guide-section__text">{{ item }}</span>
+              <span class="guide-section__text">{{ t(item) }}</span>
             </li>
           </ul>
         </template>
       </div>
 
       <div class="article-editorial-row__media guide-editorial-block__media">
-        <GuideSectionFigure
-          v-if="group.media.type === 'figure'"
-          :figure="group.media"
-          :slug="slug"
-          editorial
-        />
+        <template v-if="group.media.type === 'figure'">
+          <div class="article-editorial-media guide-editorial-figure">
+            <GuideSectionFigure
+              :figure="group.media"
+              :slug="slug"
+              editorial
+              hide-caption
+            />
+          </div>
+          <p
+            v-if="group.media.caption"
+            class="article-editorial-media__caption"
+          >
+            {{ t(group.media.caption) }}
+          </p>
+        </template>
         <GuideBrandDemo
           v-else
           :variant="group.media.variant"
@@ -97,14 +109,14 @@ const groups = computed(() => groupGuideSectionBlocks(props.blocks, props.slug))
           v-if="block.type === 'text'"
           class="guide-section__paragraph"
         >
-          {{ block.content }}
+          {{ t(block.content) }}
           <template v-if="block.link">
             <a
               :href="block.link.href"
               target="_blank"
               rel="noopener noreferrer"
               class="guide-section__inline-link"
-            >{{ block.link.label }}</a>
+            >{{ t(block.link.label) }}</a>
           </template>
         </p>
 
@@ -112,7 +124,7 @@ const groups = computed(() => groupGuideSectionBlocks(props.blocks, props.slug))
           v-else-if="block.type === 'heading'"
           class="guide-section__heading"
         >
-          {{ block.content }}
+          {{ t(block.content) }}
         </h3>
 
         <ul
@@ -126,10 +138,10 @@ const groups = computed(() => groupGuideSectionBlocks(props.blocks, props.slug))
           >
             <span class="guide-section__icon" aria-hidden="true">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M8 1L9.5 6.5L15 8L9.5 9.5L8 15L6.5 9.5L1 8L6.5 6.5L8 1Z" fill="var(--color-green-primary)" />
+                <path d="M8 3.5V12.5M3.5 8H12.5" stroke="var(--color-brand-green)" stroke-width="2" stroke-linecap="round" />
               </svg>
             </span>
-            <span class="guide-section__text">{{ item }}</span>
+            <span class="guide-section__text">{{ t(item) }}</span>
           </li>
         </ul>
       </template>
@@ -140,14 +152,14 @@ const groups = computed(() => groupGuideSectionBlocks(props.blocks, props.slug))
         v-if="group.block.type === 'text'"
         class="guide-section__paragraph"
       >
-        {{ group.block.content }}
+        {{ t(group.block.content) }}
         <template v-if="group.block.link">
           <a
             :href="group.block.link.href"
             target="_blank"
             rel="noopener noreferrer"
             class="guide-section__inline-link"
-          >{{ group.block.link.label }}</a>
+          >{{ t(group.block.link.label) }}</a>
         </template>
       </p>
 
@@ -155,7 +167,7 @@ const groups = computed(() => groupGuideSectionBlocks(props.blocks, props.slug))
         v-else-if="group.block.type === 'heading'"
         class="guide-section__heading"
       >
-        {{ group.block.content }}
+        {{ t(group.block.content) }}
       </h3>
 
       <ul
@@ -169,10 +181,10 @@ const groups = computed(() => groupGuideSectionBlocks(props.blocks, props.slug))
         >
           <span class="guide-section__icon" aria-hidden="true">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M8 1L9.5 6.5L15 8L9.5 9.5L8 15L6.5 9.5L1 8L6.5 6.5L8 1Z" fill="var(--color-green-primary)" />
+              <path d="M8 3.5V12.5M3.5 8H12.5" stroke="var(--color-brand-green)" stroke-width="2" stroke-linecap="round" />
             </svg>
           </span>
-          <span class="guide-section__text">{{ item }}</span>
+          <span class="guide-section__text">{{ t(item) }}</span>
         </li>
       </ul>
 

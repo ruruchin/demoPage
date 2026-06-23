@@ -4,6 +4,91 @@
  * @see https://m3.material.io/styles/spacing/overview
  */
 
+/* --- Табы разделов (pill track) --- */
+.guide-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--guide-tabs-gap);
+  margin-left: calc(var(--guide-content-inset, 48px) - var(--guide-tabs-track-padding));
+  padding: var(--guide-tabs-track-padding);
+  border-radius: var(--guide-tabs-radius);
+  background: var(--color-panel-bg);
+  width: fit-content;
+  max-width: calc(100% - var(--guide-content-inset, 48px) + var(--guide-tabs-track-padding));
+  box-sizing: border-box;
+}
+
+.guide-tabs__item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--guide-tabs-item-min-height);
+  padding: 0 var(--guide-tabs-item-padding-x);
+  border: none;
+  border-radius: var(--guide-tabs-radius);
+  font-family: inherit;
+  font-size: var(--guide-tabs-item-font-size);
+  line-height: 1.25;
+  font-weight: 400;
+  color: var(--color-text-primary);
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+}
+
+.guide-tabs__item:hover {
+  background: var(--color-panel-hover);
+}
+
+.guide-tabs__item--active {
+  background: var(--color-primary-btn);
+  color: #fff;
+  font-weight: 500;
+}
+
+.guide-tabs__item--active:hover {
+  background: var(--color-primary-btn);
+}
+
+.guide-main {
+  gap: 0;
+}
+
+.guide-main > .guide-hero {
+  margin-bottom: var(--guide-hero-tabs-gap);
+}
+
+.guide-main > .guide-tabs,
+.guide-main > .api-badges {
+  margin-bottom: var(--guide-tabs-content-gap);
+}
+
+@media (max-width: 767px) {
+  .guide-tabs {
+    border-radius: 24px;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    scrollbar-width: none;
+  }
+
+  .guide-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .guide-tabs__item {
+    min-height: 44px;
+    padding: 0 28px;
+    font-size: 15px;
+  }
+
+  .guide-main > .guide-tabs,
+  .guide-main > .api-badges {
+    margin-bottom: var(--space-8);
+  }
+}
+
 /* --- Layout: статья + TOC --- */
 .guide-body {
   display: grid;
@@ -61,6 +146,7 @@
   line-height: var(--article-body-line-height);
   color: var(--color-text-body);
   max-width: var(--article-content-max-width);
+  text-wrap: pretty;
 }
 
 .guide-section__paragraph:last-child {
@@ -103,6 +189,7 @@
   font-size: var(--font-size-article-body);
   line-height: var(--article-body-line-height);
   color: var(--color-text-body);
+  text-wrap: pretty;
 }
 
 /* --- Демо и медиа после текста --- */
@@ -352,8 +439,8 @@
 .article-editorial-row {
   display: grid;
   grid-template-columns:
-    minmax(0, var(--article-editorial-copy-width))
-    minmax(0, 1fr);
+    minmax(0, 1.15fr)
+    minmax(280px, var(--article-editorial-media-width));
   gap: var(--article-editorial-gap);
   align-items: start;
   padding: var(--space-9) 0;
@@ -405,6 +492,7 @@
   font-size: var(--font-size-article-body);
   line-height: var(--article-body-line-height);
   color: var(--color-text-body);
+  text-wrap: pretty;
 }
 
 .article-editorial-row__link {
@@ -461,30 +549,26 @@
 }
 
 /* --- Editorial-блоки из GuideSectionBlocks (текст | медиа) --- */
-.guide-editorial-block {
-  padding-top: var(--space-8);
-  border-top: 1px solid var(--color-border-light);
+.guide-section .article-editorial-row.guide-editorial-block {
+  padding: 0;
+  border-top: none;
 }
 
-.guide-section > .guide-editorial-block:first-child,
-.guide-section__title + .guide-editorial-block {
-  padding-top: 0;
-  border-top: none;
+.guide-editorial-block__copy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
 }
 
 .guide-editorial-block__copy .guide-section__paragraph,
 .guide-editorial-block__copy .guide-section__heading,
 .guide-editorial-block__copy .guide-section__list {
   max-width: none;
+  margin: 0;
 }
 
-.guide-editorial-block__copy .guide-section__paragraph:last-child,
-.guide-editorial-block__copy .guide-section__list:last-child {
-  margin-bottom: 0;
-}
-
-.guide-editorial-block__copy .guide-section__heading:first-child {
-  margin-top: 0;
+.guide-editorial-block__media {
+  width: 100%;
 }
 
 .guide-editorial-block__media .brand-demo {
@@ -493,6 +577,24 @@
 
 .guide-editorial-block__media .guide-figure {
   margin-top: 0;
+}
+
+.guide-editorial-figure {
+  padding: var(--space-6);
+}
+
+.guide-editorial-figure .guide-figure__frame {
+  border: none;
+  background: transparent;
+  min-height: 0;
+}
+
+.guide-editorial-figure .guide-figure__media {
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  max-height: 360px;
+  object-fit: contain;
 }
 
 .guide-editorial-block--table .article-editorial-row__media {

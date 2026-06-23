@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { BRAND_FONT_MONTSERRAT, BRAND_FONT_ROBOTO } from '~/utils/brandAssets'
+import { tieHangingWords } from '~/utils/russianTypography'
+
+const t = tieHangingWords
 
 const montserratScale = [
   { level: 'H1', weight: 700, weightLabel: 'Bold', size: '40px', lineHeight: 1.1 },
@@ -28,10 +31,10 @@ const robotoSamples = [
           Montserrat
         </h3>
         <p class="article-editorial-row__body">
-          Шрифт отражает характер бренда. Семейство Montserrat справляется с этой задачей в полной мере.
+          {{ t('Шрифт отражает характер бренда. Семейство Montserrat справляется с этой задачей в полной мере.') }}
         </p>
         <p class="article-editorial-row__body">
-          Прямые лаконичные линии без засечек хорошо воспринимаются в полиграфии и на экране.
+          {{ t('Прямые лаконичные линии без засечек хорошо воспринимаются в полиграфии и на экране.') }}
         </p>
         <a
           class="article-editorial-row__link"
@@ -93,7 +96,7 @@ const robotoSamples = [
           Roboto
         </h3>
         <p class="article-editorial-row__body">
-          Дополняет Montserrat во вспомогательных блоках, таблицах, подписях и интерфейсных элементах.
+          {{ t('Дополняет Montserrat во вспомогательных блоках, таблицах, подписях и интерфейсных элементах.') }}
         </p>
         <a
           class="article-editorial-row__link"
@@ -131,7 +134,7 @@ const robotoSamples = [
                 class="brand-fonts__scale-sample brand-fonts__scale-sample--roboto"
                 :style="{ fontWeight: item.weight }"
               >
-                {{ item.text }}
+                {{ t(item.text) }}
               </p>
             </li>
           </ul>

@@ -12,7 +12,7 @@ export const productDesignGuide: BasicsGuidePage = {
   subtitle: 'Подходы к проектированию цифровых продуктов и пользовательского опыта в экосистеме «Центр-инвест»',
   sidebarLabel: 'Продуктовый дизайн',
   cardDescription: 'Подходы к проектированию цифровых продуктов и пользовательского опыта',
-  cardImage: '/assets/images/Продуктовый дизайн.png',
+  cardImage: '/assets/images/card-product.svg',
   cardVideo: getBasicsCardVideo(slug),
   media: getBasicsHeroMedia(slug, 'Продуктовый дизайн'),
   tabs: [

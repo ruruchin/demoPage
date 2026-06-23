@@ -4,10 +4,13 @@ import {
   LAYOUT_TYPE_2,
   LAYOUT_TYPE_3,
 } from '~/utils/brandbookLayouts'
+import { tieHangingWords } from '~/utils/russianTypography'
 
 const props = defineProps<{
   part: 'type-1' | 'type-2' | 'type-3'
 }>()
+
+const t = tieHangingWords
 
 const layouts = {
   'type-1': LAYOUT_TYPE_1,
@@ -22,7 +25,7 @@ const layout = computed(() => layouts[props.part])
   <article class="article-editorial-row layouts__row">
     <div class="article-editorial-row__copy">
       <p class="article-editorial-row__body">
-        {{ layout.intro }}
+        {{ t(layout.intro) }}
       </p>
       <div
         v-for="item in layout.components"
@@ -30,10 +33,10 @@ const layout = computed(() => layouts[props.part])
         class="layouts__component"
       >
         <h4 class="layouts__component-title">
-          {{ item.title }}
+          {{ t(item.title) }}
         </h4>
         <p class="article-editorial-row__body">
-          {{ item.text }}
+          {{ t(item.text) }}
         </p>
       </div>
     </div>

@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { apiIntegrations, apiPageMeta, apiPlatformBadges } from '~/data/apiPageContent'
 import { BASICS_VIDEO_POSTER } from '~/utils/basicsHeroMedia'
+import { tieHangingWords } from '~/utils/russianTypography'
+
+const t = tieHangingWords
 
 const route = useRoute()
 
@@ -115,10 +118,10 @@ const heroMedia = {
                   >
                   <div class="guide-hero__text">
                     <h1 class="guide-hero__title">
-                      {{ apiPageMeta.title }}
+                      {{ t(apiPageMeta.title) }}
                     </h1>
                     <p class="guide-hero__subtitle">
-                      {{ apiPageMeta.subtitle }}
+                      {{ t(apiPageMeta.subtitle) }}
                     </p>
                   </div>
                 </div>
@@ -153,7 +156,7 @@ const heroMedia = {
                           v-if="section.title"
                           class="guide-section__title"
                         >
-                          {{ section.title }}
+                          {{ t(section.title) }}
                         </h2>
 
                         <template
@@ -164,7 +167,7 @@ const heroMedia = {
                             v-if="block.type === 'text'"
                             class="guide-section__paragraph"
                           >
-                            {{ block.content }}
+                            {{ t(block.content) }}
                           </p>
 
                           <ul
@@ -181,7 +184,7 @@ const heroMedia = {
                                   <path d="M8 1L9.5 6.5L15 8L9.5 9.5L8 15L6.5 9.5L1 8L6.5 6.5L8 1Z" fill="var(--color-green-primary)"/>
                                 </svg>
                               </span>
-                              <span class="guide-section__text">{{ item }}</span>
+                              <span class="guide-section__text">{{ t(item) }}</span>
                             </li>
                           </ul>
 
@@ -270,7 +273,6 @@ const heroMedia = {
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 24px;
   --guide-content-inset: 48px;
 }
 

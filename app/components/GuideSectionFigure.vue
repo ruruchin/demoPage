@@ -1,19 +1,40 @@
 <script setup lang="ts">
 import type { GuideFigureBlock } from '~/types/guide'
+import { getBasicsGuide } from '~/data/basicsGuides'
 import { getBasicsContentImagePath, getBasicsContentVideoPath } from '~/utils/basicsContentMedia'
+import { BASICS_VIDEO_POSTER } from '~/utils/basicsHeroMedia'
+import { tieHangingWords } from '~/utils/russianTypography'
+
+const t = tieHangingWords
 
 const props = defineProps<{
   figure: GuideFigureBlock
   slug: string
   editorial?: boolean
+  hideCaption?: boolean
 }>()
 
 const mediaError = ref(false)
+const fallbackError = ref(false)
 const videoLoaded = ref(false)
 const hasSource = computed(() => Boolean(props.figure.src))
 const videoRef = ref<HTMLVideoElement | null>(null)
 const showVideo = computed(() => props.figure.mediaKind === 'video' && hasSource.value && (!mediaError.value || videoLoaded.value))
 const { paused: videosPaused, syncVideo } = useSiteVideosPaused()
+
+const fallbackSrc = computed(() => {
+  return props.figure.poster
+    ?? getBasicsGuide(props.slug)?.cardImage
+    ?? BASICS_VIDEO_POSTER
+})
+
+const showPrimaryImage = computed(() => props.figure.mediaKind === 'image' && hasSource.value && !mediaError.value)
+const showFallbackImage = computed(() => {
+  return props.figure.mediaKind === 'image'
+    && (mediaError.value || !hasSource.value)
+    && Boolean(fallbackSrc.value)
+    && !fallbackError.value
+})
 
 const suggestedPath = computed(() => {
   if (props.figure.src?.includes('/assets/images/brandbook/')) {
@@ -62,6 +83,11 @@ function onMediaError(event: Event) {
     }
   }
 
+  if (target.dataset.fallback === 'true') {
+    fallbackError.value = true
+    return
+  }
+
   mediaError.value = true
 }
 
@@ -69,6 +95,7 @@ watch(
   () => props.figure.src,
   () => {
     mediaError.value = false
+    fallbackError.value = false
     videoLoaded.value = false
   },
 )
@@ -89,7 +116,7 @@ onMounted(() => {
       :class="{
         'guide-figure__frame--video': figure.mediaKind === 'video',
         'guide-figure__frame--brandbook': isBrandbook,
-        'guide-figure__frame--placeholder': !hasSource || mediaError,
+        'guide-figure__frame--placeholder': !showVideo && !showPrimaryImage && !showFallbackImage,
       }"
     >
       <video
@@ -97,7 +124,7 @@ onMounted(() => {
         :key="figure.src"
         ref="videoRef"
         class="guide-figure__media"
-        :class="{ 'guide-figure__media--contain': isBrandbook }"
+        :class="{ 'guide-figure__media--contain': isBrandbook || editorial }"
         :src="figure.src"
         :poster="videoLoaded ? undefined : figure.poster"
         :autoplay="!videosPaused"
@@ -112,15 +139,29 @@ onMounted(() => {
       />
 
       <img
-        v-else-if="figure.mediaKind === 'image' && hasSource && !mediaError"
+        v-else-if="showPrimaryImage"
         class="guide-figure__media"
-        :class="{ 'guide-figure__media--contain': isBrandbook }"
+        :class="{ 'guide-figure__media--contain': isBrandbook || editorial }"
         :src="figure.src"
         :alt="figure.alt ?? figure.label"
         @error="onMediaError"
       >
 
-      <div v-else class="guide-figure__placeholder">
+      <img
+        v-else-if="showFallbackImage"
+        class="guide-figure__media"
+        :class="{ 'guide-figure__media--contain': true }"
+        :src="fallbackSrc"
+        data-fallback="true"
+        :alt="figure.alt ?? figure.label"
+        @error="onMediaError"
+      >
+
+      <div
+        v-else
+        class="guide-figure__placeholder"
+        :class="{ 'guide-figure__placeholder--editorial': editorial }"
+      >
         <span class="guide-figure__placeholder-icon" aria-hidden="true">
           <svg
             v-if="figure.mediaKind === 'video'"
@@ -146,17 +187,17 @@ onMounted(() => {
             <path d="M4 22L11 15L16 19L22 13L28 22" stroke="var(--color-green-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </span>
-        <p class="guide-figure__placeholder-label">
+        <p v-if="!editorial" class="guide-figure__placeholder-label">
           {{ figure.mediaKind === 'video' ? 'Видео' : 'Фото' }}: {{ figure.label }}
         </p>
-        <p class="guide-figure__placeholder-path">
+        <p v-if="!editorial" class="guide-figure__placeholder-path">
           {{ suggestedPath }}
         </p>
       </div>
     </div>
 
-    <figcaption v-if="figure.caption" class="guide-figure__caption">
-      {{ figure.caption }}
+    <figcaption v-if="figure.caption && !hideCaption" class="guide-figure__caption">
+      {{ t(figure.caption) }}
     </figcaption>
   </figure>
 </template>
@@ -169,10 +210,31 @@ onMounted(() => {
 
 .guide-figure--editorial {
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: 100%;
 }
 
 .guide-figure--editorial .guide-figure__frame {
-  min-height: 240px;
+  min-height: 0;
+  aspect-ratio: auto;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+}
+
+.guide-figure--editorial .guide-figure__frame--video {
+  aspect-ratio: 16 / 10;
+  min-height: 0;
+}
+
+.guide-figure--editorial .guide-figure__media {
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  max-height: 360px;
+  object-fit: contain;
 }
 
 .guide-figure__frame {
@@ -228,6 +290,11 @@ onMounted(() => {
     linear-gradient(135deg, var(--color-surface) 0%, var(--color-surface-muted) 100%);
 }
 
+.guide-figure__placeholder--editorial {
+  min-height: 200px;
+  padding: var(--space-6);
+}
+
 .guide-figure__placeholder-icon {
   display: flex;
   align-items: center;
@@ -263,6 +330,10 @@ onMounted(() => {
 
   .guide-figure__frame--video {
     min-height: 260px;
+  }
+
+  .guide-figure--editorial .guide-figure__media {
+    max-height: 280px;
   }
 }
 </style>

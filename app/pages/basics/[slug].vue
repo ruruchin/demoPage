@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { getBasicsGuide } from '~/data/basicsGuides'
+import { tieHangingWords } from '~/utils/russianTypography'
+
+const t = tieHangingWords
 
 const route = useRoute()
 
@@ -129,10 +132,10 @@ const { collapsed: sidebarCollapsed } = useGuideSidebarCollapsed()
                   >
                   <div class="guide-hero__text">
                     <h1 class="guide-hero__title">
-                      {{ guide?.title }}
+                      {{ t(guide?.title ?? '') }}
                     </h1>
                     <p class="guide-hero__subtitle">
-                      {{ guide?.subtitle }}
+                      {{ t(guide?.subtitle ?? '') }}
                     </p>
                   </div>
                 </div>
@@ -169,7 +172,7 @@ const { collapsed: sidebarCollapsed } = useGuideSidebarCollapsed()
                           v-if="section.title"
                           class="guide-section__title"
                         >
-                          {{ section.title }}
+                          {{ t(section.title) }}
                         </h2>
 
                         <GuideSectionBlocks
@@ -256,7 +259,6 @@ const { collapsed: sidebarCollapsed } = useGuideSidebarCollapsed()
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 24px;
   --guide-content-inset: 48px;
 }
 
@@ -301,39 +303,6 @@ const { collapsed: sidebarCollapsed } = useGuideSidebarCollapsed()
   line-height: 1.45;
   color: var(--color-text-secondary);
   margin: 0;
-}
-
-.guide-tabs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-left: calc(var(--guide-content-inset) - 8px);
-  padding: 8px;
-  border-radius: 999px;
-  background: var(--color-panel-bg);
-  width: fit-content;
-  max-width: calc(100% - var(--guide-content-inset) + 8px);
-  box-sizing: border-box;
-}
-
-.guide-tabs__item {
-  padding: 14px 24px;
-  border-radius: 999px;
-  font-size: 15px;
-  color: var(--color-text-primary);
-  background: transparent;
-  transition: background-color 0.2s ease, color 0.2s ease;
-  white-space: nowrap;
-}
-
-.guide-tabs__item:hover {
-  background: var(--color-panel-hover);
-}
-
-.guide-tabs__item--active {
-  background: var(--color-primary-btn);
-  color: #fff;
-  font-weight: 500;
 }
 
 .guide-page-footer {
@@ -434,22 +403,6 @@ const { collapsed: sidebarCollapsed } = useGuideSidebarCollapsed()
 
   .guide-content-area {
     padding: 0 16px 0;
-  }
-
-  .guide-tabs {
-    border-radius: 24px;
-    overflow-x: auto;
-    flex-wrap: nowrap;
-    scrollbar-width: none;
-  }
-
-  .guide-tabs::-webkit-scrollbar {
-    display: none;
-  }
-
-  .guide-tabs__item {
-    padding: 12px 18px;
-    font-size: 14px;
   }
 
   .guide-page-footer {
