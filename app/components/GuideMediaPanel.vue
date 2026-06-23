@@ -154,6 +154,10 @@ onUnmounted(() => {
   background: var(--color-hero-bg);
 }
 
+.guide-media-panel--image {
+  background: #fff;
+}
+
 .guide-media-panel__video,
 .guide-media-panel__image {
   width: 100%;

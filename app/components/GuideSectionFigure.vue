@@ -5,6 +5,7 @@ import { getBasicsContentImagePath, getBasicsContentVideoPath } from '~/utils/ba
 const props = defineProps<{
   figure: GuideFigureBlock
   slug: string
+  editorial?: boolean
 }>()
 
 const mediaError = ref(false)
@@ -14,11 +15,17 @@ const videoRef = ref<HTMLVideoElement | null>(null)
 const showVideo = computed(() => props.figure.mediaKind === 'video' && hasSource.value && (!mediaError.value || videoLoaded.value))
 const { paused: videosPaused, syncVideo } = useSiteVideosPaused()
 
-const suggestedPath = computed(() =>
-  props.figure.mediaKind === 'image'
+const suggestedPath = computed(() => {
+  if (props.figure.src?.includes('/assets/images/brandbook/')) {
+    return `public/assets/images/brandbook/${props.figure.fileName}.png`
+  }
+
+  return props.figure.mediaKind === 'image'
     ? getBasicsContentImagePath(props.slug, props.figure.fileName)
-    : getBasicsContentVideoPath(props.slug, props.figure.fileName),
-)
+    : getBasicsContentVideoPath(props.slug, props.figure.fileName)
+})
+
+const isBrandbook = computed(() => props.figure.src?.includes('/assets/images/brandbook/') ?? false)
 
 async function ensureVideoPlayback(video: HTMLVideoElement) {
   if (videosPaused.value) {
@@ -76,11 +83,12 @@ onMounted(() => {
 </script>
 
 <template>
-  <figure class="guide-figure">
+  <figure class="guide-figure" :class="{ 'guide-figure--editorial': editorial }">
     <div
       class="guide-figure__frame"
       :class="{
         'guide-figure__frame--video': figure.mediaKind === 'video',
+        'guide-figure__frame--brandbook': isBrandbook,
         'guide-figure__frame--placeholder': !hasSource || mediaError,
       }"
     >
@@ -89,6 +97,7 @@ onMounted(() => {
         :key="figure.src"
         ref="videoRef"
         class="guide-figure__media"
+        :class="{ 'guide-figure__media--contain': isBrandbook }"
         :src="figure.src"
         :poster="videoLoaded ? undefined : figure.poster"
         :autoplay="!videosPaused"
@@ -105,6 +114,7 @@ onMounted(() => {
       <img
         v-else-if="figure.mediaKind === 'image' && hasSource && !mediaError"
         class="guide-figure__media"
+        :class="{ 'guide-figure__media--contain': isBrandbook }"
         :src="figure.src"
         :alt="figure.alt ?? figure.label"
         @error="onMediaError"
@@ -153,7 +163,16 @@ onMounted(() => {
 
 <style scoped>
 .guide-figure {
-  margin: 32px 0 0;
+  margin: var(--article-space-media-top) 0 0;
+  max-width: 100%;
+}
+
+.guide-figure--editorial {
+  margin: 0;
+}
+
+.guide-figure--editorial .guide-figure__frame {
+  min-height: 240px;
 }
 
 .guide-figure__frame {
@@ -166,8 +185,22 @@ onMounted(() => {
   border: 1px solid var(--color-border-light);
 }
 
+.guide-figure__caption {
+  margin: var(--space-3) 0 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--color-text-muted);
+  max-width: 72ch;
+}
+
 .guide-figure__frame--video {
   min-height: 360px;
+}
+
+.guide-figure__frame--brandbook {
+  min-height: 0;
+  aspect-ratio: 16 / 9;
+  background: var(--color-card-bg);
 }
 
 .guide-figure__media {
@@ -176,6 +209,10 @@ onMounted(() => {
   min-height: inherit;
   display: block;
   object-fit: cover;
+}
+
+.guide-figure__media--contain {
+  object-fit: contain;
 }
 
 .guide-figure__placeholder {
@@ -217,13 +254,6 @@ onMounted(() => {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   word-break: break-all;
   max-width: 520px;
-}
-
-.guide-figure__caption {
-  margin-top: 12px;
-  font-size: 14px;
-  line-height: 1.5;
-  color: var(--color-text-muted);
 }
 
 @media (max-width: 767px) {

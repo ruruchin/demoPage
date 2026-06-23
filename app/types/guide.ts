@@ -33,9 +33,39 @@ export interface GuideFigureBlock {
   alt?: string
 }
 
+export type BrandDemoVariant =
+  | 'color-palette-primary'
+  | 'color-palette-pastel'
+  | 'color-usage'
+  | 'logo-primary'
+  | 'logo-versions'
+  | 'logo-clear-space'
+  | 'logo-donts'
+  | 'typography-scale'
+  | 'typography-accents'
+  | 'brand-fonts'
+  | 'editorial-dashes'
+  | 'editorial-hyphenation'
+  | 'editorial-quotes'
+  | 'editorial-lists'
+  | 'editorial-contrast'
+  | 'editorial-tracking'
+  | 'editorial-leading'
+  | 'editorial-company-name'
+  | 'layout-type-1'
+  | 'layout-type-2'
+  | 'layout-type-3'
+  | 'brand-elements-3d-primitives'
+  | 'brand-elements-3d-examples'
+  | 'brand-elements-2d'
+  | 'brand-elements-mesh'
+  | 'digital-overview'
+
 export type GuideContentBlock =
-  | { type: 'text'; content: string }
+  | { type: 'text'; content: string; link?: { label: string; href: string } }
+  | { type: 'heading'; content: string }
   | { type: 'list'; items: string[] }
+  | { type: 'demo'; variant: BrandDemoVariant }
   | GuideFigureBlock
 
 export interface GuideSection {
@@ -64,6 +94,7 @@ export interface BasicsGuidePage {
   sidebarLabel: string
   cardDescription: string
   cardImage: string
+  cardVideo?: string
   media: GuideMedia
   tabs: GuideTab[]
 }

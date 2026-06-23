@@ -1,0 +1,9 @@
+<svg width="400" height="280" viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="280" rx="32" fill="#E5F6F4"/>
+  <rect x="56" y="64" width="288" height="24" rx="6" fill="#50B848" opacity="0.25"/>
+  <rect x="56" y="104" width="220" height="18" rx="5" fill="#0E100F" opacity="0.12"/>
+  <rect x="56" y="136" width="260" height="14" rx="4" fill="#0E100F" opacity="0.08"/>
+  <rect x="56" y="160" width="240" height="14" rx="4" fill="#0E100F" opacity="0.08"/>
+  <text x="72" y="82" font-family="Montserrat, sans-serif" font-size="14" font-weight="700" fill="#50B848">H1 Заголовок</text>
+  <text x="200" y="228" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="20" font-weight="600" fill="#0E100F">Типографика</text>
+</svg>

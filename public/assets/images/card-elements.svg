@@ -1,0 +1,13 @@
+<svg width="400" height="280" viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="280" rx="32" fill="url(#mesh)"/>
+  <defs>
+    <radialGradient id="mesh" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(120 80) rotate(45) scale(200)">
+      <stop stop-color="#E8FEEB"/>
+      <stop offset="0.5" stop-color="#E5F6F4"/>
+      <stop offset="1" stop-color="#50B848" stop-opacity="0.3"/>
+    </radialGradient>
+  </defs>
+  <circle cx="280" cy="100" r="48" fill="#F9E300" opacity="0.6"/>
+  <circle cx="140" cy="160" r="40" fill="#50B848" opacity="0.5"/>
+  <text x="200" y="230" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="18" font-weight="600" fill="#0E100F">Элементы</text>
+</svg>

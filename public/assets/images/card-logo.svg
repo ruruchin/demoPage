@@ -1,0 +1,7 @@
+<svg width="400" height="280" viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="280" rx="32" fill="#E8FEEB"/>
+  <circle cx="200" cy="120" r="56" fill="#50B848" opacity="0.15"/>
+  <rect x="148" y="88" width="104" height="64" rx="32" fill="white"/>
+  <path d="M200 108C188 108 180 116 180 128C180 140 188 148 200 148C212 148 220 140 220 128C220 116 212 108 200 108Z" fill="#50B848"/>
+  <text x="200" y="210" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="22" font-weight="600" fill="#0E100F">Логотип</text>
+</svg>

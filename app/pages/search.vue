@@ -35,13 +35,20 @@ const categories: { id: SearchCategory, label: string }[] = [
 ]
 
 const searchItems: SearchItem[] = [
-  { id: 'page-home', title: 'Главная', description: 'Обзор дизайн-системы и раздел «Основы дизайна»', href: '/', category: 'pages', keywords: ['главная', 'home', 'обзор'] },
-  { id: 'page-styles', title: 'Стили', description: 'Основы дизайна: мобильные продукты, типографика, продуктовый дизайн', href: '/basics', category: 'pages', keywords: ['стили', 'styles', 'токены', 'основы'] },
+  { id: 'page-home', title: 'Главная', description: 'Обзор дизайн-системы и основы дизайна', href: '/', category: 'pages', keywords: ['главная', 'home', 'обзор'] },
+  { id: 'page-styles', title: 'Стили', description: 'Основы дизайна и брендбук: логотип, цвета, типографика, макеты', href: '/basics', category: 'pages', keywords: ['стили', 'styles', 'брендбук', 'основы'] },
   { id: 'page-modules', title: 'Модули', description: 'Документация UI-компонентов и их свойства', href: '/modules', category: 'pages', keywords: ['модули', 'components', 'компоненты'] },
   { id: 'page-api', title: 'API', description: 'Интеграции с Cursor, Claude, MCP и REST для AI-агентов', href: '/api', category: 'pages', keywords: ['api', 'cursor', 'claude', 'mcp', 'интеграции', 'агенты'] },
   { id: 'basics-mobile', title: 'Дизайн мобильных продуктов', description: 'Принципы и методы создания удобных мобильных интерфейсов', href: '/basics/mobile-design', category: 'basics', keywords: ['мобильный', 'mobile', 'продукт'] },
   { id: 'basics-typography', title: 'Типографика', description: 'Правила работы со шрифтами и текстовыми стилями в дизайне', href: '/basics/typography', category: 'basics', keywords: ['типографика', 'шрифт', 'текст'] },
   { id: 'basics-product', title: 'Продуктовый дизайн', description: 'Подходы к проектированию цифровых продуктов и пользовательского опыта', href: '/basics/product-design', category: 'basics', keywords: ['продукт', 'ux', 'дизайн'] },
+  { id: 'basics-logo', title: 'Логотип', description: 'Версии, охранное поле и правила использования логотипа', href: '/basics/logo', category: 'basics', keywords: ['логотип', 'logo', 'знак', 'бренд'] },
+  { id: 'basics-colors', title: 'Фирменные цвета', description: 'Палитра бренда и правила применения цветов', href: '/basics/colors', category: 'basics', keywords: ['цвет', 'палитра', 'зелёный', 'жёлтый'] },
+  { id: 'basics-brand-typography', title: 'Шрифты бренда', description: 'Montserrat, Roboto и правила заголовков по брендбуку', href: '/basics/brand-typography', category: 'basics', keywords: ['брендбук', 'montserrat', 'roboto'] },
+  { id: 'basics-elements', title: 'Фирменные элементы', description: '3D, 2D иллюстрации и mesh-градиенты', href: '/basics/brand-elements', category: 'basics', keywords: ['элементы', '3d', 'иллюстрация', 'градиент'] },
+  { id: 'basics-editorial', title: 'Оформление текста', description: 'Тире, кавычки, списки, контраст и название компании', href: '/basics/editorial', category: 'basics', keywords: ['редакция', 'тире', 'кавычки', 'текст'] },
+  { id: 'basics-layouts', title: 'Строение макетов', description: 'Три вида компоновки рекламных макетов', href: '/basics/layouts', category: 'basics', keywords: ['макет', 'layout', 'баннер', 'реклама'] },
+  { id: 'basics-digital', title: 'Digital', description: 'Соцсети, баннеры, презентации и приложение', href: '/basics/digital', category: 'basics', keywords: ['digital', 'соцсети', 'презентация', 'приложение'] },
   { id: 'comp-AsyncAttachFiles', title: 'AsyncAttachFiles', description: 'Компонент загрузки и прикрепления файлов', href: '/modules?component=AsyncAttachFiles', category: 'components' },
   { id: 'comp-FileUploader', title: 'FileUploader', description: 'Загрузка файлов с поддержкой drag-and-drop', href: '/modules?component=FileUploader', category: 'components' },
   { id: 'comp-AttachmentHandler', title: 'AttachmentHandler', description: 'Обработка и управление вложениями', href: '/modules?component=AttachmentHandler', category: 'components' },
@@ -224,6 +231,12 @@ function selectCategory(category: SearchCategory) {
 <style scoped>
 .search-page {
   gap: 32px;
+}
+
+.search-page__body {
+  display: flex;
+  flex-direction: column;
+  gap: 72px;
 }
 
 .search-hero {

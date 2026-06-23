@@ -26,3 +26,7 @@ export function getBasicsHeroMedia(slug: string, alt: string): GuideMedia {
     alt,
   }
 }
+
+export function getBasicsCardVideo(slug: string) {
+  return getBasicsVideoSrc(slug)
+}

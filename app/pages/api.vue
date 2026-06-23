@@ -28,6 +28,13 @@ watch(activeIntegrationId, (id) => {
   activeTocId.value = integration?.toc[0]?.id ?? ''
 })
 
+const { scrollToSection } = useGuideTocScrollSpy({
+  toc: computed(() => activeIntegration.value?.toc),
+  sectionIdPrefix: 'api-section-',
+  activeTocId,
+  contentKey: activeIntegrationId,
+})
+
 useSeoMeta({
   title: 'API и интеграции — Центр-инвест DS',
   description: apiPageMeta.subtitle,
@@ -35,11 +42,6 @@ useSeoMeta({
 
 function selectIntegration(id: string) {
   activeIntegrationId.value = id
-}
-
-function scrollToSection(sectionId: string, tocId: string) {
-  activeTocId.value = tocId
-  document.getElementById(`api-section-${sectionId}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 }
 
 function closeMobileNav() {
@@ -335,111 +337,6 @@ const heroMedia = {
   border: 1px solid var(--color-border-light);
 }
 
-.guide-body {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 240px;
-  gap: 48px;
-  align-items: start;
-  padding-left: var(--guide-content-inset);
-  box-sizing: border-box;
-}
-
-.guide-article {
-  min-width: 0;
-}
-
-.guide-section + .guide-section {
-  margin-top: 48px;
-}
-
-.guide-section__title {
-  font-size: 28px;
-  font-weight: 400;
-  letter-spacing: -0.4px;
-  margin: 0 0 20px;
-  color: var(--color-text-primary);
-}
-
-.guide-section__paragraph {
-  margin: 0 0 24px;
-  font-size: 18px;
-  line-height: 1.6;
-  color: var(--color-text-secondary);
-  max-width: 820px;
-}
-
-.guide-section__list {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.guide-section__item {
-  display: flex;
-  gap: 16px;
-  align-items: flex-start;
-}
-
-.guide-section__icon {
-  flex-shrink: 0;
-  margin-top: 4px;
-}
-
-.guide-section__text {
-  font-size: 18px;
-  line-height: 1.55;
-  color: var(--color-text-primary);
-}
-
-.guide-toc {
-  position: sticky;
-  top: calc(var(--page-inset-top) + 16px);
-}
-
-.guide-toc__label {
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--color-text-muted);
-  margin: 0 0 16px;
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-}
-
-.guide-toc__list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.guide-toc__link {
-  width: 100%;
-  text-align: left;
-  padding: 10px 14px;
-  border-radius: 12px;
-  font-size: 14px;
-  color: var(--color-text-primary);
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  font-family: inherit;
-  transition: background-color 0.2s ease;
-}
-
-.guide-toc__link:hover {
-  background: var(--color-panel-hover);
-}
-
-.guide-toc__link--active {
-  background: var(--color-surface-muted);
-  font-weight: 500;
-}
-
 .guide-page-footer {
   margin-top: 120px;
   width: 100%;
@@ -459,16 +356,6 @@ const heroMedia = {
 @media (max-width: 1439px) {
   .guide-hero {
     min-height: 360px;
-  }
-
-  .guide-body {
-    grid-template-columns: minmax(0, 1fr) 200px;
-    gap: 32px;
-  }
-
-  .guide-section__text,
-  .guide-section__paragraph {
-    font-size: 16px;
   }
 }
 
@@ -490,16 +377,6 @@ const heroMedia = {
 
   .api-main {
     --guide-content-inset: 24px;
-  }
-
-  .guide-body {
-    grid-template-columns: 1fr;
-  }
-
-  .guide-toc {
-    position: static;
-    padding-top: 8px;
-    border-top: 1px solid var(--color-border-light);
   }
 
   .guide-content-area {
@@ -580,16 +457,6 @@ const heroMedia = {
 
   .api-main {
     --guide-content-inset: 64px;
-  }
-
-  .guide-section__text,
-  .guide-section__paragraph {
-    font-size: 20px;
-  }
-
-  .guide-body {
-    gap: 64px;
-    grid-template-columns: minmax(0, 1fr) 280px;
   }
 }
 

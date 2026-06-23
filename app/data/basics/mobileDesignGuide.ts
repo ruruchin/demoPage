@@ -1,6 +1,6 @@
 import type { BasicsGuidePage } from '~/types/guide'
 import { basicsFigureImage, basicsFigureVideo } from '~/utils/basicsContentMedia'
-import { getBasicsHeroMedia } from '~/utils/basicsHeroMedia'
+import { getBasicsCardVideo, getBasicsHeroMedia } from '~/utils/basicsHeroMedia'
 
 const slug = 'mobile-design'
 const img = (name: string, label: string, caption?: string) => basicsFigureImage(slug, name, label, caption)
@@ -13,6 +13,7 @@ export const mobileDesignGuide: BasicsGuidePage = {
   sidebarLabel: 'Дизайн мобильных продуктов',
   cardDescription: 'Принципы и методы создания удобных мобильных интерфейсов',
   cardImage: '/assets/images/Дизайн мобильных продуктов.png',
+  cardVideo: getBasicsCardVideo(slug),
   media: getBasicsHeroMedia(slug, 'Дизайн мобильных продуктов'),
   tabs: [
     {

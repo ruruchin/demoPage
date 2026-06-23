@@ -1,6 +1,6 @@
 import type { BasicsGuidePage } from '~/types/guide'
 import { basicsFigureImage, basicsFigureVideo } from '~/utils/basicsContentMedia'
-import { getBasicsHeroMedia } from '~/utils/basicsHeroMedia'
+import { getBasicsCardVideo, getBasicsHeroMedia } from '~/utils/basicsHeroMedia'
 
 const slug = 'typography'
 const img = (name: string, label: string, caption?: string) => basicsFigureImage(slug, name, label, caption)
@@ -13,6 +13,7 @@ export const typographyGuide: BasicsGuidePage = {
   sidebarLabel: 'Типографика',
   cardDescription: 'Правила работы со шрифтами и текстовыми стилями в дизайне',
   cardImage: '/assets/images/Типографика.png',
+  cardVideo: getBasicsCardVideo(slug),
   media: getBasicsHeroMedia(slug, 'Типографика'),
   tabs: [
     {

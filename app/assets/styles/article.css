@@ -1,0 +1,500 @@
+/**
+ * Вёрстка статей (Основы, API) — ритм отступов по Material Design 3.
+ * Сетка 4dp, семантические токены в tokens.css (--article-space-*).
+ * @see https://m3.material.io/styles/spacing/overview
+ */
+
+/* --- Layout: статья + TOC --- */
+.guide-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--article-toc-width);
+  gap: var(--article-body-gutter);
+  align-items: start;
+  padding-left: var(--guide-content-inset, 48px);
+  box-sizing: border-box;
+}
+
+.guide-article {
+  min-width: 0;
+}
+
+/* --- Секции (крупные блоки с H2) --- */
+.guide-section {
+  scroll-margin-top: var(--article-scroll-margin);
+}
+
+.guide-section + .guide-section {
+  margin-top: var(--article-space-section);
+}
+
+/* --- Типографика и отступы внутри секции --- */
+.guide-section__title {
+  margin: 0 0 var(--article-space-title-bottom);
+  font-size: var(--font-size-section-title);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+
+.guide-section__heading {
+  margin: 0 0 var(--article-space-subheading-bottom);
+  font-size: var(--font-size-article-subheading);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--color-text-primary);
+  max-width: var(--article-content-max-width);
+}
+
+.guide-section * + .guide-section__heading {
+  margin-top: var(--article-space-subheading-top);
+}
+
+.guide-section__title + .guide-section__heading {
+  margin-top: 0;
+}
+
+.guide-section__paragraph {
+  margin: 0 0 var(--article-space-paragraph);
+  font-size: var(--font-size-article-body);
+  line-height: var(--article-body-line-height);
+  color: var(--color-text-body);
+  max-width: var(--article-content-max-width);
+}
+
+.guide-section__paragraph:last-child {
+  margin-bottom: var(--article-space-list);
+}
+
+.guide-section__inline-link {
+  color: var(--color-brand-green);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.guide-section__inline-link:hover {
+  text-decoration-thickness: 2px;
+}
+
+.guide-section__list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--article-space-list);
+  display: flex;
+  flex-direction: column;
+  gap: var(--article-space-list-item);
+  max-width: var(--article-content-max-width);
+}
+
+.guide-section__item {
+  display: flex;
+  gap: var(--article-space-list-icon);
+  align-items: flex-start;
+}
+
+.guide-section__icon {
+  flex-shrink: 0;
+  margin-top: var(--space-1);
+}
+
+.guide-section__text {
+  font-size: var(--font-size-article-body);
+  line-height: var(--article-body-line-height);
+  color: var(--color-text-body);
+}
+
+/* --- Демо и медиа после текста --- */
+.guide-section .brand-demo[class*='brand-demo--editorial-'],
+.guide-section .brand-demo--brand-fonts,
+.guide-section .brand-demo--color-palette-primary,
+.guide-section .brand-demo--color-palette-pastel {
+  margin-top: var(--article-space-table-top);
+  margin-bottom: var(--article-space-demo-bottom);
+}
+
+.guide-section .brand-demo[class*='brand-demo--brand-elements-'],
+.guide-section .brand-demo--layout-type-1,
+.guide-section .brand-demo--layout-type-2,
+.guide-section .brand-demo--layout-type-3,
+.guide-section .brand-demo--logo-primary,
+.guide-section .brand-demo--logo-clear-space {
+  margin-bottom: var(--article-space-demo-bottom);
+}
+
+.guide-section .brand-demo--brand-elements-3d-primitives {
+  margin-bottom: var(--article-space-list);
+}
+
+.guide-section__list + .brand-demo[class*='brand-demo--brand-elements-'] {
+  margin-top: var(--article-space-section);
+}
+
+.guide-section__title + .brand-demo[class*='brand-demo--brand-elements-'],
+.guide-section__title + .brand-demo--brand-fonts,
+.guide-section__title + .brand-demo--layout-type-1,
+.guide-section__title + .brand-demo--layout-type-2,
+.guide-section__title + .brand-demo--layout-type-3,
+.guide-section__title + .brand-demo--logo-primary,
+.guide-section__title + .brand-demo--logo-clear-space {
+  margin-top: var(--article-space-title-bottom);
+}
+
+/* --- TOC справа --- */
+.guide-toc {
+  position: sticky;
+  top: calc(var(--page-inset-top) + var(--space-4));
+}
+
+.guide-toc__label {
+  margin: 0 0 var(--space-4);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.guide-toc__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.guide-toc__link {
+  width: 100%;
+  padding: 10px 14px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 14px;
+  text-align: left;
+  color: var(--color-text-primary);
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.guide-toc__link:hover {
+  background: var(--color-panel-hover);
+}
+
+.guide-toc__link--active {
+  background: var(--color-surface-muted);
+  font-weight: 500;
+}
+
+/* --- Адаптив --- */
+@media (max-width: 1439px) {
+  .guide-body {
+    grid-template-columns: minmax(0, 1fr) 200px;
+    gap: var(--space-7);
+  }
+
+  .guide-section__text,
+  .guide-section__paragraph {
+    font-size: 17px;
+  }
+
+  .guide-section__title {
+    font-size: clamp(26px, 4vw, var(--font-size-section-title));
+  }
+
+  .guide-section__heading {
+    font-size: clamp(20px, 3vw, var(--font-size-article-subheading));
+  }
+}
+
+@media (max-width: 1279px) {
+  .guide-body {
+    grid-template-columns: 1fr;
+  }
+
+  .guide-toc {
+    position: static;
+    padding-top: var(--space-2);
+    border-top: 1px solid var(--color-border-light);
+  }
+}
+
+@media (min-width: 2560px) {
+  :root {
+    --article-toc-width: 280px;
+  }
+
+  .guide-section__text,
+  .guide-section__paragraph {
+    font-size: var(--font-size-article-body);
+  }
+
+  .guide-section__title {
+    font-size: var(--font-size-section-title);
+  }
+
+  .guide-section__heading {
+    font-size: var(--font-size-article-subheading);
+  }
+
+  .guide-body {
+    gap: var(--article-body-gutter);
+  }
+}
+
+/* --- Editorial-таблицы (пример | Да/Нет) — единый стиль на всех страницах --- */
+.guide-editorial-table {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.guide-editorial-table__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4) var(--space-7);
+  margin: 0 0 var(--space-6);
+  font-size: var(--font-size-article-body);
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--color-text-primary);
+}
+
+.guide-editorial-table__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--space-4) var(--article-table-col-gap);
+  align-items: center;
+  padding: var(--article-table-row-py) 0;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.guide-editorial-table__row:first-child {
+  padding-top: 0;
+}
+
+.guide-editorial-table__row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.guide-editorial-table__row--start {
+  align-items: start;
+}
+
+.guide-editorial-table__sample {
+  min-width: 0;
+}
+
+.guide-editorial-table__sample--lg {
+  margin: 0;
+  font-size: clamp(22px, 3vw, 32px);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-text-primary);
+}
+
+.guide-editorial-table__sample--lg-bad {
+  letter-spacing: 0.02em;
+}
+
+.guide-editorial-table__verdict {
+  min-width: 0;
+}
+
+.guide-editorial-table__label {
+  margin: 0 0 var(--space-2);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.guide-editorial-table__label--yes {
+  color: var(--color-brand-green);
+}
+
+.guide-editorial-table__label--no {
+  color: #e5484d;
+}
+
+.guide-editorial-table__note {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--color-text-muted);
+  max-width: 36ch;
+}
+
+.guide-editorial-table__section-label {
+  margin: var(--space-7) 0 var(--space-4);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.guide-editorial-table__section-label:first-child {
+  margin-top: 0;
+}
+
+@media (max-width: 767px) {
+  .guide-editorial-table__row {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    align-items: start;
+  }
+}
+
+/* --- M3 editorial: текст слева | медиа/карточка справа --- */
+.article-editorial-row {
+  display: grid;
+  grid-template-columns:
+    minmax(0, var(--article-editorial-copy-width))
+    minmax(0, 1fr);
+  gap: var(--article-editorial-gap);
+  align-items: start;
+  padding: var(--space-9) 0;
+  border-top: 1px solid var(--color-border-light);
+}
+
+.article-editorial-row__media {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+  width: 100%;
+  max-width: var(--article-editorial-media-width);
+  justify-self: stretch;
+}
+
+.article-editorial-row:first-child {
+  padding-top: 0;
+  border-top: none;
+}
+
+.article-editorial-row__copy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding-top: var(--space-1);
+}
+
+.article-editorial-row__title {
+  margin: 0;
+  font-size: clamp(26px, 3.2vw, 36px);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+
+.article-editorial-row__eyebrow {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-brand-green);
+}
+
+.article-editorial-row__body {
+  margin: 0;
+  font-size: var(--font-size-article-body);
+  line-height: var(--article-body-line-height);
+  color: var(--color-text-body);
+}
+
+.article-editorial-row__link {
+  align-self: flex-start;
+  margin-top: var(--space-2);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--color-brand-green);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.article-editorial-row__link:hover {
+  text-decoration-thickness: 2px;
+}
+
+.article-editorial-row__link--inline {
+  margin-top: 0;
+  display: inline;
+}
+
+.article-editorial-media {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border-light);
+  background: var(--color-card-bg);
+  padding: var(--space-6);
+  min-width: 0;
+  overflow: hidden;
+}
+
+.article-editorial-media__caption {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+@media (max-width: 960px) {
+  .article-editorial-row {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+    padding: var(--space-7) 0;
+    max-width: none;
+  }
+
+  .article-editorial-row__media {
+    max-width: none;
+  }
+
+  .article-editorial-row__copy {
+    padding-top: 0;
+  }
+}
+
+/* --- Editorial-блоки из GuideSectionBlocks (текст | медиа) --- */
+.guide-editorial-block {
+  padding-top: var(--space-8);
+  border-top: 1px solid var(--color-border-light);
+}
+
+.guide-section > .guide-editorial-block:first-child,
+.guide-section__title + .guide-editorial-block {
+  padding-top: 0;
+  border-top: none;
+}
+
+.guide-editorial-block__copy .guide-section__paragraph,
+.guide-editorial-block__copy .guide-section__heading,
+.guide-editorial-block__copy .guide-section__list {
+  max-width: none;
+}
+
+.guide-editorial-block__copy .guide-section__paragraph:last-child,
+.guide-editorial-block__copy .guide-section__list:last-child {
+  margin-bottom: 0;
+}
+
+.guide-editorial-block__copy .guide-section__heading:first-child {
+  margin-top: 0;
+}
+
+.guide-editorial-block__media .brand-demo {
+  margin: 0;
+}
+
+.guide-editorial-block__media .guide-figure {
+  margin-top: 0;
+}
+
+.guide-editorial-block--table .article-editorial-row__media {
+  max-width: min(100%, 720px);
+}

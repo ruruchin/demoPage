@@ -50,6 +50,13 @@ watch(activeTabId, (tabId) => {
   activeTocId.value = tab?.toc[0]?.id ?? ''
 })
 
+const { scrollToSection } = useGuideTocScrollSpy({
+  toc: computed(() => activeTab.value?.toc),
+  sectionIdPrefix: 'guide-section-',
+  activeTocId,
+  contentKey: activeTabId,
+})
+
 useSeoMeta({
   title: () => `${guide.value?.title ?? 'Основы'} — Центр-инвест DS`,
   description: () => guide.value?.subtitle ?? '',
@@ -57,12 +64,6 @@ useSeoMeta({
 
 function selectTab(tabId: string) {
   activeTabId.value = tabId
-}
-
-function scrollToSection(sectionId: string, tocId: string) {
-  activeTocId.value = tocId
-  const element = document.getElementById(`guide-section-${sectionId}`)
-  element?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 }
 
 function closeMobileNav() {
@@ -171,41 +172,11 @@ const { collapsed: sidebarCollapsed } = useGuideSidebarCollapsed()
                           {{ section.title }}
                         </h2>
 
-                        <template
-                          v-for="(block, blockIndex) in section.blocks"
-                          :key="`${section.id}-block-${blockIndex}`"
-                        >
-                          <p
-                            v-if="block.type === 'text'"
-                            class="guide-section__paragraph"
-                          >
-                            {{ block.content }}
-                          </p>
-
-                          <ul
-                            v-else-if="block.type === 'list'"
-                            class="guide-section__list"
-                          >
-                            <li
-                              v-for="(item, index) in block.items"
-                              :key="`${section.id}-item-${index}`"
-                              class="guide-section__item"
-                            >
-                              <span class="guide-section__icon" aria-hidden="true">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                  <path d="M8 1L9.5 6.5L15 8L9.5 9.5L8 15L6.5 9.5L1 8L6.5 6.5L8 1Z" fill="var(--color-green-primary)"/>
-                                </svg>
-                              </span>
-                              <span class="guide-section__text">{{ item }}</span>
-                            </li>
-                          </ul>
-
-                          <GuideSectionFigure
-                            v-else-if="block.type === 'figure'"
-                            :figure="block"
-                            :slug="slug"
-                          />
-                        </template>
+                        <GuideSectionBlocks
+                          :blocks="section.blocks"
+                          :section-id="section.id"
+                          :slug="slug"
+                        />
                       </section>
                     </div>
                   </Transition>
@@ -365,108 +336,6 @@ const { collapsed: sidebarCollapsed } = useGuideSidebarCollapsed()
   font-weight: 500;
 }
 
-.guide-body {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 240px;
-  gap: 48px;
-  align-items: start;
-  padding-left: var(--guide-content-inset);
-  box-sizing: border-box;
-}
-
-.guide-article {
-  min-width: 0;
-}
-
-.guide-section + .guide-section {
-  margin-top: 48px;
-}
-
-.guide-section__title {
-  font-size: 28px;
-  font-weight: 400;
-  letter-spacing: -0.4px;
-  margin: 0 0 20px;
-  color: var(--color-text-primary);
-}
-
-.guide-section__paragraph {
-  margin: 0 0 24px;
-  font-size: 18px;
-  line-height: 1.6;
-  color: var(--color-text-secondary);
-  max-width: 820px;
-}
-
-.guide-section__list {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.guide-section__item {
-  display: flex;
-  gap: 16px;
-  align-items: flex-start;
-}
-
-.guide-section__icon {
-  flex-shrink: 0;
-  margin-top: 4px;
-}
-
-.guide-section__text {
-  font-size: 18px;
-  line-height: 1.55;
-  color: var(--color-text-primary);
-}
-
-.guide-toc {
-  position: sticky;
-  top: calc(var(--page-inset-top) + 16px);
-}
-
-.guide-toc__label {
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--color-text-muted);
-  margin: 0 0 16px;
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-}
-
-.guide-toc__list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.guide-toc__link {
-  width: 100%;
-  text-align: left;
-  padding: 10px 14px;
-  border-radius: 12px;
-  font-size: 14px;
-  color: var(--color-text-primary);
-  background: transparent;
-  transition: background-color 0.2s ease;
-}
-
-.guide-toc__link:hover {
-  background: var(--color-panel-hover);
-}
-
-.guide-toc__link--active {
-  background: var(--color-surface-muted);
-  font-weight: 500;
-}
-
 .guide-page-footer {
   margin-top: 120px;
   width: 100%;
@@ -486,19 +355,6 @@ const { collapsed: sidebarCollapsed } = useGuideSidebarCollapsed()
 @media (max-width: 1439px) {
   .guide-hero {
     min-height: 360px;
-  }
-
-  .guide-body {
-    grid-template-columns: minmax(0, 1fr) 200px;
-    gap: 32px;
-  }
-
-  .guide-section__text {
-    font-size: 16px;
-  }
-
-  .guide-section__paragraph {
-    font-size: 16px;
   }
 }
 
@@ -520,16 +376,6 @@ const { collapsed: sidebarCollapsed } = useGuideSidebarCollapsed()
   .guide-hero__card--media {
     border-radius: 28px 28px 28px 120px;
     min-height: 240px;
-  }
-
-  .guide-body {
-    grid-template-columns: 1fr;
-  }
-
-  .guide-toc {
-    position: static;
-    padding-top: 8px;
-    border-top: 1px solid var(--color-border-light);
   }
 
   .guide-content-area {
@@ -623,19 +469,6 @@ const { collapsed: sidebarCollapsed } = useGuideSidebarCollapsed()
 
   .guide-main {
     --guide-content-inset: 64px;
-  }
-
-  .guide-section__text {
-    font-size: 20px;
-  }
-
-  .guide-section__paragraph {
-    font-size: 20px;
-  }
-
-  .guide-body {
-    gap: 64px;
-    grid-template-columns: minmax(0, 1fr) 280px;
   }
 }
 

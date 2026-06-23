@@ -1,6 +1,6 @@
 import type { BasicsGuidePage } from '~/types/guide'
 import { basicsFigureImage, basicsFigureVideo } from '~/utils/basicsContentMedia'
-import { getBasicsHeroMedia } from '~/utils/basicsHeroMedia'
+import { getBasicsCardVideo, getBasicsHeroMedia } from '~/utils/basicsHeroMedia'
 
 const slug = 'product-design'
 const img = (name: string, label: string, caption?: string) => basicsFigureImage(slug, name, label, caption)
@@ -13,6 +13,7 @@ export const productDesignGuide: BasicsGuidePage = {
   sidebarLabel: 'Продуктовый дизайн',
   cardDescription: 'Подходы к проектированию цифровых продуктов и пользовательского опыта',
   cardImage: '/assets/images/Продуктовый дизайн.png',
+  cardVideo: getBasicsCardVideo(slug),
   media: getBasicsHeroMedia(slug, 'Продуктовый дизайн'),
   tabs: [
     {

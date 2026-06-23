@@ -49,6 +49,7 @@ const cards = getBasicsHomeCards()
                 :title="card.title"
                 :description="card.description"
                 :image="card.image"
+                :video="card.video"
                 :to="card.to"
               />
               <GuideBlock />

@@ -4,22 +4,107 @@ interface Props {
   description: string
   image: string
   imageAlt?: string
+  video?: string
   to?: string
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   imageAlt: '',
+  video: '',
   to: '',
+})
+
+const videoRef = ref<HTMLVideoElement | null>(null)
+const videoError = ref(false)
+const videoLoaded = ref(false)
+const showVideo = computed(() => Boolean(props.video) && !videoError.value)
+const { paused: videosPaused, syncVideo } = useSiteVideosPaused()
+
+async function ensurePlayback() {
+  const video = videoRef.value
+  if (!video || videoError.value) {
+    return
+  }
+
+  if (videosPaused.value) {
+    video.pause()
+    return
+  }
+
+  video.muted = true
+  video.loop = true
+
+  try {
+    if (video.paused) {
+      await video.play()
+      videoLoaded.value = true
+      video.removeAttribute('poster')
+    }
+  }
+  catch {
+    // Autoplay can be blocked until user interaction.
+  }
+}
+
+function onVideoError(event: Event) {
+  const video = event.target as HTMLVideoElement
+  if (videosPaused.value || video.error?.code === MediaError.MEDIA_ERR_ABORTED || videoLoaded.value) {
+    return
+  }
+
+  videoError.value = true
+}
+
+function onVideoLoadedData() {
+  videoLoaded.value = true
+  videoRef.value?.removeAttribute('poster')
+  void ensurePlayback()
+}
+
+watch(videosPaused, () => {
+  syncVideo(videoRef.value)
+})
+
+watch(() => props.video, () => {
+  videoError.value = false
+  videoLoaded.value = false
+  nextTick(() => {
+    syncVideo(videoRef.value)
+    void ensurePlayback()
+  })
+})
+
+onMounted(() => {
+  syncVideo(videoRef.value)
+  void ensurePlayback()
 })
 </script>
 
 <template>
   <article class="design-card">
     <div class="design-card__media">
+      <video
+        v-if="showVideo"
+        ref="videoRef"
+        class="design-card__video"
+        :src="video"
+        :poster="videoLoaded ? undefined : image"
+        :autoplay="!videosPaused"
+        muted
+        loop
+        playsinline
+        preload="auto"
+        :aria-label="imageAlt || title"
+        @canplay="ensurePlayback"
+        @loadeddata="onVideoLoadedData"
+        @error="onVideoError"
+      />
+
       <img
+        v-else
         class="design-card__image"
         :src="image"
-        :alt="imageAlt"
+        :alt="imageAlt || title"
       >
     </div>
 
@@ -75,10 +160,16 @@ withDefaults(defineProps<Props>(), {
   overflow: hidden;
 }
 
+.design-card__video,
 .design-card__image {
   width: 100%;
   height: 100%;
+  display: block;
   object-fit: cover;
+}
+
+.design-card__video {
+  background: var(--color-surface);
 }
 
 .design-card__body {
